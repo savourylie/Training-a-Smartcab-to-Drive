@@ -1,6 +1,7 @@
 
 from agent import LearningAgent
 from agent import coord_convert
+from agent import delta_convert
 from environment import Environment
 import numpy as np
 from numbers import Number
@@ -36,6 +37,24 @@ class TestAgent:
 
 		assert self.agent.q_learning(np.array([5, 6]), np.array([1, 0]), 'green', ['forward', 'right', 'left'])[1] == 18
 
+	def test__navigation(self):
+		assert self.agent._navigation((1, 0), [0, -1]) == 'left'
+		assert self.agent._navigation((1, 0), [0, 1]) == 'right'
+		assert self.agent._navigation((1, 0), [1, 0]) == 'forward'
+		assert self.agent._navigation((0, 1), [0, 1]) == 'forward'
+		assert self.agent._navigation((0, 1), [1, 0]) == 'left'
+		assert self.agent._navigation((0, 1), [-1, 0]) == 'right'
+		assert self.agent._navigation((0, 1), [0, 0]) == None
+		assert self.agent._navigation((0, -1), [0, 0]) == None
+		assert self.agent._navigation((1, 0), [0, 0]) == None
+		assert self.agent._navigation((-1, 0), [0, 0]) == None
+		assert self.agent._navigation((-1, 0), [-1, 0]) == 'forward'
+		assert self.agent._navigation((-1, 0), [0, 1]) == 'left'
+		assert self.agent._navigation((-1, 0), [0, -1]) == 'right'
+		assert self.agent._navigation((0, -1), [0, -1]) == 'forward'
+		assert self.agent._navigation((0, -1), [-1, 0]) == 'left'
+		assert self.agent._navigation((0, -1), [1, 0]) == 'right'
+
 	def test_policy_output_type(self):
 		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'right')] = 18
 		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'forward')] = -2
@@ -62,6 +81,13 @@ def test_coord_convert():
 	assert coord_convert([0, 3]) == [8, 3]
 	assert coord_convert([0, 0]) == [8, 6]
 	assert coord_convert([2, 0]) == [2, 6]
+
+def test_delta_convert():
+	assert delta_convert([0, -5]) == [0, 1]
+	assert delta_convert([-7, 0]) == [1, 0]
+	assert delta_convert([7, 0]) == [-1, 0]
+	assert delta_convert([7, 0]) == [-1, 0]
+	assert delta_convert([0, 5]) == [0, -1]
 
 
 

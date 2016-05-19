@@ -40,6 +40,26 @@ class LearningAgent(Agent):
 
         return key[-1], q_value
 
+    def _navigation(self, heading, delta):
+        """Use heading and delta (next loc - current loc) to decide the SmartCab's action. Internal use (by policy) only.
+        """
+        if delta[0] == 0 and delta[1] == 0:
+            return None
+
+        heading_3d = [heading[0], heading[1], 0]
+        delta_3d = [delta[0], delta[1], 0]
+
+        direction = np.cross(heading_3d, delta_3d)
+
+        if direction[2] == 0:
+            return 'forward'
+        elif direction[2] == -1:
+            return 'left'
+        elif direction[2] == 1:
+            return 'right'
+        else:
+            raise ValueError, "Navigation system malfuncitoning, man!"
+
     def policy(self, location, heading, traffic_light, other_agents):
         print("Location: {}".format(location))
         print("Heading: {}".format(heading))
@@ -53,45 +73,6 @@ class LearningAgent(Agent):
 
         for m in next_locs:
             temp_next_loc.append(np.matrix(coord_convert([m[0, 0], m[0, 1]])))
-            # if m[0, 0] != 0 and m[0, 0] != 9:
-            #     if m[0, 1] != 0 and m[0, 1] != 7:
-            #         temp_next_loc.append(m)
-            #     elif m[0, 1] == 0:
-            #         m[0, 1] = m[0, 1] + 6
-            #         temp_next_loc.append(m)
-            #     elif m[0, 1] == 7:
-            #         m[0, 1] = m[0, 1] - 6
-            #         temp_next_loc.append(m)
-            #     else:
-            #         raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
-            # elif m[0, 0] == 0:
-            #     m[0, 0] = m[0, 0] + 8
-
-            #     if m[0, 1] != 0 and m[0, 1] != 7:
-            #         temp_next_loc.append(m)
-            #     elif m[0, 1] == 0:
-            #         m[0, 1] = m[0, 1] + 6
-            #         temp_next_loc.append(m)
-            #     elif m[0, 1] == 7:
-            #         m[0, 1] = m[0, 1] - 6
-            #         temp_next_loc.append(m)
-            #     else:
-            #         raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
-            # elif m[0, 0] == 9:
-            #     m[0, 0] = m[0, 0] - 8
-
-            #     if m[0, 1] != 0 and m[0, 1] != 7:
-            #         temp_next_loc.append(m)
-            #     elif m[0, 1] == 0:
-            #         m[0, 1] = m[0, 1] + 6
-            #         temp_next_loc.append(m)
-            #     elif m[0, 1] == 7:
-            #         m[0, 1] = m[0, 1] - 6
-            #         temp_next_loc.append(m)
-            #     else:
-            #         raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
-            # else:
-            #     raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
 
         next_locs = temp_next_loc
 
@@ -116,6 +97,7 @@ class LearningAgent(Agent):
         print(key[-1], q_value)
 
         delta = [(key[0] - location[0]) % 2, (key[1] - location[1]) % 2]
+        delta[0], delta[1] = delta_convert([delta[0], delta[1]])
 
         print("delta[0] = {}".format(delta[0]))
         print("delta[1] = {}".format(delta[1]))
@@ -123,27 +105,7 @@ class LearningAgent(Agent):
         print("delta[0] * heading[1]  = {}".format(delta[0] * heading[1]))
         print("delta[1] * heading[0]  = {}".format(delta[1] * heading[0]))
 
-        if delta[0] != 0: # Going
-            print()
-            if delta[0] * heading[0] == 1:
-                action = 'forward'
-            elif delta[0] * heading[1] == -1:
-                action = 'right'
-            elif delta[0] * heading[1] == 1:
-                action = 'left'
-            else:
-                raise ValueError, "Your Smartcab is at the wrong place! Check your code, dude!"
-        else: # Going NS
-            if delta[1] * heading[1] == 1:
-                action = 'forward'
-            elif delta[1] * heading[0] == -1:
-                action = 'left'
-            elif delta[1] * heading[0] == 1:
-                action = 'right'
-            else:
-                raise ValueError, "Your Smartcab is at the wrong place! Check your code, dude!"
-
-        return action
+        return self._navigation(heading, delta)
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -230,6 +192,35 @@ def coord_convert(num_list):
             pass
         else:
             num_list[1] = num_list[1] + 6
+
+    return num_list
+
+def delta_convert(num_list):
+    """Converts displacement vector to the correct form
+    """
+    if num_list[0] > 1:
+        num_list[0] = num_list[0] - 8
+        if num_list[1] > 1:
+            num_list[1] = num_list[1] - 6
+        elif num_list[1] < -1:
+            num_list[1] = num_list[1] + 6
+        else:
+            pass
+    elif num_list[0] < -1:
+        num_list[0] = num_list[0] + 8
+        if num_list[1] > 1:
+            num_list[1] = num_list[1] - 6
+        elif num_list[1] < -1:
+            num_list[1] = num_list[1] + 6
+        else:
+            pass
+    else:
+        if num_list[1] > 1:
+            num_list[1] = num_list[1] - 6
+        elif num_list[1] < -1:
+            num_list[1] = num_list[1] + 6
+        else:
+            pass
 
     return num_list
 
