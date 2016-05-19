@@ -1,31 +1,67 @@
-from __future__ import division
-import random
-import operator
-from collections import defaultdict
 
-import numpy as np
-
-from environment import Agent, Environment
-from planner import RoutePlanner
 from agent import LearningAgent
+from agent import coord_convert
+from environment import Environment
+import numpy as np
+from numbers import Number
 
 class TestAgent:
-	r90_matrix = np.matrix([[0, -1], [1, 0]]) # Rotate CCW
-    rn90_matrix = np.matrix([[0, 1], [-1, 0]]) # Rotate CW
-
-    random_reward = [-2, -1, 0, 1, 2]
-
 	def setup_method(self, method):
 		print("Setting up METHOD {0}".format(method.__name__))
 		self.e = Environment()
 		self.agent = self.e.create_agent(LearningAgent)
 		self.e.set_primary_agent(self.agent, enforce_deadline=False)
-		self.q_dict = defaultdict(lambda: np.random.choice(self.random_reward))
 
-	def test_q_learning(self):
-		q_dict is (loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act): q_value
-		print("Testing Q-Learning...")
-		print(self.agent)
+		self.q_dict = self.agent.q_dict
+
+	def test_q_dict(self):
+		# q_dict is (loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act): q_value
+		print("Testing q_dict...")
+		assert self.agent.q_dict[0] in [-2, -1, 0, 1, 2]
+		assert self.agent.q_dict[28] in [-2, -1, 0, 1, 2]
+		assert self.agent.q_dict[100] not in [3, 5, -100]
+
+	def test_q_learning_output_type(self):
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'right')] = 18
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'forward')] = -2
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', None)] = 0
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'left')] = 12
+		assert isinstance(self.agent.q_learning(np.array([5, 6]), np.array([1, 0]), 'green', ['forward', 'right', 'left'])[1], Number)
+
+	def test_q_learning_output_value(self):
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'right')] = 18
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'forward')] = -2
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', None)] = 0
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'left')] = 12
+
+		assert self.agent.q_learning(np.array([5, 6]), np.array([1, 0]), 'green', ['forward', 'right', 'left'])[1] == 18
+
+	def test_policy_output_type(self):
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'right')] = 18
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'forward')] = -2
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', None)] = 0
+		self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'left')] = 12
+
+		assert type(self.agent.policy(np.array([5, 6]), np.array([1, 0]), 'green', ['forward', 'right', 'left'])) == type('string')
+
+	# def test_policy_output_value(self):
+	# 	self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'right')] = 18
+	# 	self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'forward')] = -2
+	# 	self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', None)] = 0
+	# 	self.q_dict[(5, 6, 1, 0, 'green', 'forward', 'right', 'left', 'left')] = 12
+
+	# 	assert self.agent.policy(np.array([5, 6]), np.array([1, 0]), 'green', ['forward', 'right', 'left']) == 18
+
+def test_coord_convert():
+	assert coord_convert([8, 5]) == [8, 5]
+	assert coord_convert([2, 6]) == [2, 6]
+	assert coord_convert([8, 6]) == [8, 6]
+	assert coord_convert([1, 2]) == [1, 2]
+	assert coord_convert([9, 5]) == [1, 5]
+	assert coord_convert([1, 7]) == [1, 1]
+	assert coord_convert([0, 3]) == [8, 3]
+	assert coord_convert([0, 0]) == [8, 6]
+	assert coord_convert([2, 0]) == [2, 6]
 
 
 

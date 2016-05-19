@@ -34,41 +34,105 @@ class LearningAgent(Agent):
         q_compare_dict = {}
 
         for loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act in self.q_dict:
-            if loc_x == location[0] & loc_y == location[1] & hd_x == heading[0] & hd_y == heading[1] & tl == traffic_light & oa_oc == other_agents[0] & oa_lt == other_agents[1] & oa_rt == other_agents[2]:
+            if (loc_x == location[0] and loc_y == location[1] and hd_x == heading[0] and hd_y == heading[1] and tl == traffic_light and oa_oc == other_agents[0] and oa_lt == other_agents[1] and oa_rt == other_agents[2]):
                 q_compare_dict[(loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act)] = self.q_dict[(loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act)]
+        key, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
 
-        _, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
-
-        return q_value
+        return key[-1], q_value
 
     def policy(self, location, heading, traffic_light, other_agents):
-        next_headings = set([heading, np.dot(self.r90_matrix, heading), np.dot(self.rn90_matrix, heading)])
-        next_locs = set([x + heading for x in next_headings])
+        print("Location: {}".format(location))
+        print("Heading: {}".format(heading))
+
+        next_headings = [np.matrix(heading), np.dot(self.r90_matrix, heading), np.dot(self.rn90_matrix, heading)]
+        print("Next Headings: {}".format(next_headings))
+
+        next_locs = [x + np.matrix(location) for x in next_headings]
+        temp_next_loc = []
+        # print("Next Locations (RAW): {}".format(next_locs))
+
+        for m in next_locs:
+            temp_next_loc.append(np.matrix(coord_convert([m[0, 0], m[0, 1]])))
+            # if m[0, 0] != 0 and m[0, 0] != 9:
+            #     if m[0, 1] != 0 and m[0, 1] != 7:
+            #         temp_next_loc.append(m)
+            #     elif m[0, 1] == 0:
+            #         m[0, 1] = m[0, 1] + 6
+            #         temp_next_loc.append(m)
+            #     elif m[0, 1] == 7:
+            #         m[0, 1] = m[0, 1] - 6
+            #         temp_next_loc.append(m)
+            #     else:
+            #         raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
+            # elif m[0, 0] == 0:
+            #     m[0, 0] = m[0, 0] + 8
+
+            #     if m[0, 1] != 0 and m[0, 1] != 7:
+            #         temp_next_loc.append(m)
+            #     elif m[0, 1] == 0:
+            #         m[0, 1] = m[0, 1] + 6
+            #         temp_next_loc.append(m)
+            #     elif m[0, 1] == 7:
+            #         m[0, 1] = m[0, 1] - 6
+            #         temp_next_loc.append(m)
+            #     else:
+            #         raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
+            # elif m[0, 0] == 9:
+            #     m[0, 0] = m[0, 0] - 8
+
+            #     if m[0, 1] != 0 and m[0, 1] != 7:
+            #         temp_next_loc.append(m)
+            #     elif m[0, 1] == 0:
+            #         m[0, 1] = m[0, 1] + 6
+            #         temp_next_loc.append(m)
+            #     elif m[0, 1] == 7:
+            #         m[0, 1] = m[0, 1] - 6
+            #         temp_next_loc.append(m)
+            #     else:
+            #         raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
+            # else:
+            #     raise ValueError, "Your Smartcab is at some weird place! Check your code, dude!"
+
+        next_locs = temp_next_loc
+
+        print("Next Locations: {}".format(next_locs))
+
         valid_actions = set(['forward', 'right', 'left'])
 
         max_q = ''
         q_compare_dict = {}
 
         for loc in next_locs:
-            for hd in set([loc - location, np.dot(self.r90_matrix, loc - location), np.dot(self.rn90_matrix, loc - location)]):
+            for hd in [(loc - np.matrix(location)).T, np.dot(self.r90_matrix, (loc - np.matrix(location)).T), np.dot(self.rn90_matrix, (loc - np.matrix(location)).T)]:
                 for tl in set(['green', 'red']):
                     for oa_oc in valid_actions:
-                        for oc_lt in valid_actions:
+                        for oa_lt in valid_actions:
                             for oa_rt in valid_actions:
                                 for act in set(Environment.valid_actions):
-                                    q_compare_dict[(loc[0], loc[1], hd[0], hd[1], tl, oa_oc, oa_lt, oa_rt, act)] = self.q_dict[(loc[0], loc[1], hd[0], hd[1], tl, oa_oc, oa_lt, oa_rt, act)]
+                                    q_compare_dict[(loc[0, 0], loc[0, 1], hd[0, 0], hd[1, 0], tl, oa_oc, oa_lt, oa_rt, act)] = self.q_dict[(loc[0, 0], loc[0, 1], hd[0, 0], hd[1, 0], tl, oa_oc, oa_lt, oa_rt, act)]
 
         key, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
 
-        delta = (key[0] - location[0], key[1] - location[1])
+        print(key[-1], q_value)
 
-        if delta[0] != 0: # Going EW
+        delta = [(key[0] - location[0]) % 2, (key[1] - location[1]) % 2]
+
+        print("delta[0] = {}".format(delta[0]))
+        print("delta[1] = {}".format(delta[1]))
+
+        print("delta[0] * heading[1]  = {}".format(delta[0] * heading[1]))
+        print("delta[1] * heading[0]  = {}".format(delta[1] * heading[0]))
+
+        if delta[0] != 0: # Going
+            print()
             if delta[0] * heading[0] == 1:
                 action = 'forward'
             elif delta[0] * heading[1] == -1:
                 action = 'right'
             elif delta[0] * heading[1] == 1:
                 action = 'left'
+            else:
+                raise ValueError, "Your Smartcab is at the wrong place! Check your code, dude!"
         else: # Going NS
             if delta[1] * heading[1] == 1:
                 action = 'forward'
@@ -76,6 +140,8 @@ class LearningAgent(Agent):
                 action = 'left'
             elif delta[1] * heading[0] == 1:
                 action = 'right'
+            else:
+                raise ValueError, "Your Smartcab is at the wrong place! Check your code, dude!"
 
         return action
 
@@ -136,6 +202,36 @@ class LearningAgent(Agent):
 
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
+
+def coord_convert(num_list):
+    if num_list[0] != 0 and num_list[0] != 8:
+        num_list[0] = num_list[0] % 8
+
+        if num_list[1] != 0 and num_list[1] != 6:
+            num_list[1] = num_list[1] % 6
+        elif num_list[1] == 6:
+            pass
+        else:
+            num_list[1] = num_list[1] + 6
+    elif num_list[0] == 8:
+        if num_list[1] != 0 and num_list[1] != 6:
+            num_list[1] = num_list[1] % 6
+        elif num_list[1] == 6:
+            pass
+        else:
+            num_list[1] = num_list[1] + 6
+
+    else:
+        num_list[0] = num_list[0] + 8
+
+        if num_list[1] != 0 and num_list[1] != 6:
+            num_list[1] = num_list[1] % 6
+        elif num_list[1] == 6:
+            pass
+        else:
+            num_list[1] = num_list[1] + 6
+
+    return num_list
 
 
 def run():
