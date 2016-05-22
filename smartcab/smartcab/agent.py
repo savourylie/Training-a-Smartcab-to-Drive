@@ -193,7 +193,7 @@ class LearningAgent(Agent): ## TODO: REMOVE EVERY MATRIX FROM THIS CLASS!!!!!!!!
 
         try:
             self.prev_loc
-        except NameError:
+        except AttributeError:
             print("Initializing...no prevs exist.")
         else:
             self.q_update(now_loc, now_heading, now_light, now_agents)
