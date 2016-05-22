@@ -54,11 +54,6 @@ class LearningAgent(Agent): ## TODO: REMOVE EVERY MATRIX FROM THIS CLASS!!!!!!!!
 
     def q_update(self, now_loc, now_heading, now_light, now_agents):
         q_temp = self.q_dict[(self.prev_loc[0], self.prev_loc[1], self.prev_heading[0], self.prev_heading[1], self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)]
-        # print("q_temp: {}".format(q_temp))
-        # print("prev_reward: {}".format(self.prev_reward))
-        # print("max_q: {}".format(self.max_q(now_loc, now_heading, now_light, now_agents)))
-        # print("Gamma: {}".format(self.gamma))
-        # print("Alpha: {}".format(1 / self.i_alpha))
         q_temp = (1 - (1 / self.i_alpha)) * q_temp + (1 / self.i_alpha) * (self.prev_reward + self.gamma * self.max_q(now_loc, now_heading, now_light, now_agents)[1])
         self.q_dict[(self.prev_loc[0], self.prev_loc[1], self.prev_heading[0], self.prev_heading[1], self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)] = q_temp
         self.i_alpha = self.i_alpha + 1
@@ -68,22 +63,27 @@ class LearningAgent(Agent): ## TODO: REMOVE EVERY MATRIX FROM THIS CLASS!!!!!!!!
     def _navigator(self, heading, delta):
         """Use heading and delta (next loc - current loc) to decide the SmartCab's action. Internal use (by policy) only.
         """
+        valid_deltas = set([-1, 0, 1])
+
         if delta[0] == 0 and delta[1] == 0:
             return None
+        elif delta[0] in valid_deltas and delta[1] in valid_deltas:
 
-        heading_3d = [heading[0], heading[1], 0]
-        delta_3d = [delta[0], delta[1], 0]
+            heading_3d = [heading[0], heading[1], 0]
+            delta_3d = [delta[0], delta[1], 0]
 
-        direction = np.cross(heading_3d, delta_3d)
+            direction = np.cross(heading_3d, delta_3d)
 
-        if direction[2] == 0:
-            return 'forward'
-        elif direction[2] == -1:
-            return 'left'
-        elif direction[2] == 1:
-            return 'right'
+            if direction[2] == 0:
+                return 'forward'
+            elif direction[2] == -1:
+                return 'left'
+            elif direction[2] == 1:
+                return 'right'
+            else:
+                raise ValueError, "Navigation system malfuncitoning, man!"
         else:
-            raise ValueError, "Navigation system malfuncitoning, man!"
+            raise ValueError, "Navigator warning: wrong delta!"
 
     def policy(self, location, heading, traffic_light, other_agents):
         print("Location: {}".format(location))
@@ -103,43 +103,30 @@ class LearningAgent(Agent): ## TODO: REMOVE EVERY MATRIX FROM THIS CLASS!!!!!!!!
         for m in next_locs:
             temp_next_loc.append(np.matrix(coord_convert([m[0, 0], m[0, 1]])))
 
-        next_locs = temp_next_loc
-        print("Next Locations: {}".format(next_locs))
-
-        ## TODO: FIX THE COORDINATE PROBLEMS FOR nnext_headings!!!!
-        nnext_headings1 = [(loc - np.matrix(location)).T for loc in next_locs]
-        nnext_headings2 = [np.dot(self.r90_matrix, (loc - np.matrix(location)).T) for loc in next_locs]
-        nnext_headings3 = [np.dot(self.rn90_matrix, (loc - np.matrix(location)).T) for loc in next_locs]
-        nnext_headings = nnext_headings1 + nnext_headings2 + nnext_headings3
-        temp_nnext_headings = []
-        print("NNext headings (RAW): {}".format(nnext_headings))
-
-        for m in nnext_headings:
-            # print(m)
-            temp_nnext_headings.append(np.matrix(delta_convert([m[0, 0], m[1, 0]])))
-
-        print(temp_nnext_headings)
-        # nnext_headings = temp_nnext_headings
+        next_locs = [y for x in temp_next_loc for y in x.tolist()]
+        print("Next Locations (list): {}".format(next_locs))
 
         valid_actions = set([None, 'forward', 'right', 'left'])
 
         max_q = ''
         q_compare_dict = {}
 
-        # print("q_dict: {}".format([x for x in self.q_dict.values()]))
-        # print("q_dict: {}".format([x for x in self.q_dict]))
         print("Test MaxQ: {}".format(self.max_q([3, 4], (-1, 0), 'red', ['forward', None, None])))
         for loc in next_locs:
             print("Next loc (in loop): {}".format(loc))
+            delta_arr = np.array(loc) - np.array(location)
+            if delta_arr[0] == 0 and delta_arr[1] == 0:
+                print("Staying where you are, heading: {}".format(heading))
+                nnext_headings = [heading, tuple(np.dot(self.r90_matrix, np.array(heading)).tolist()[0]), tuple(np.dot(self.rn90_matrix, np.array(heading)).tolist()[0])]
+            else:
+                nnext_headings = [tuple(delta_arr.tolist()), tuple(np.dot(self.r90_matrix, delta_arr).tolist()[0]), tuple(np.dot(self.rn90_matrix, delta_arr).tolist()[0])]
+            print("NNext headings (list): {}".format(nnext_headings))
             for hd in nnext_headings:
-                # print("NNext headings: {}".format(hd))
                 for tl in set(['green', 'red']):
                     for oa_oc in valid_actions:
                         for oa_lt in valid_actions:
                             for oa_rt in valid_actions:
-                                # if self.max_q([loc[0, 0], loc[0, 1]], (hd[0, 0], hd[1, 0]), tl, [oa_oc, oa_lt, oa_rt]) is not None:
-                                q_compare_dict[(loc[0, 0], loc[0, 1], hd[0, 0], hd[1, 0], tl, oa_oc, oa_lt, oa_rt)] = self.max_q([loc[0, 0], loc[0, 1]], (hd[0, 0], hd[1, 0]), tl, [oa_oc, oa_lt, oa_rt])[1]
-        # print("q_compare_dict: {}".format(q_compare_dict))
+                                q_compare_dict[(loc[0], loc[1], hd[0], hd[1], tl, oa_oc, oa_lt, oa_rt)] = self.max_q(loc, (hd[0], hd[1]), tl, [oa_oc, oa_lt, oa_rt])[1]
         key, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
 
         print("Very useful KEY!: {}".format(key))
