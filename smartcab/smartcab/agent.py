@@ -13,20 +13,18 @@ import numpy as np
 
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
-    num_trial = 10
+    num_trial = 100
     success_count = 0
 
     r90_matrix = np.matrix([[0, -1], [1, 0]]) # Rotate CCW
     rn90_matrix = np.matrix([[0, 1], [-1, 0]]) # Rotate CW
 
-    # random_reward = [-2, -1, 0, 1, 2]
     random_reward = [0]
 
     def __init__(self, env):
         super(LearningAgent, self).__init__(env)  # sets self.env = env, state = None, next_waypoint = None, and a default color
         self.color = 'red'  # override color
         self.planner = RoutePlanner(self.env, self)  # simple route planner to get next_waypoint
-        # TODO: Initialize any additional variables here
         self.epsilon = 1
         self.gamma = 0.9
         self.i_alpha = 2
@@ -43,16 +41,11 @@ class LearningAgent(Agent):
         for act in set(Environment.valid_actions):
             _ = self.q_dict[(location[0], location[1], heading[0], heading[1], traffic_light, other_agents[0], other_agents[1], other_agents[2], act)]
             q_compare_dict[(location[0], location[1], heading[0], heading[1], traffic_light, other_agents[0], other_agents[1], other_agents[2], act)] = self.q_dict[(location[0], location[1], heading[0], heading[1], traffic_light, other_agents[0], other_agents[1], other_agents[2], act)]
-        # for loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act in self.q_dict: # <- DEFAULTDICT doesn't work here!!!!!!
-        #     if (loc_x == location[0] and loc_y == location[1] and hd_x == heading[0] and hd_y == heading[1] and tl == traffic_light and oa_oc == other_agents[0] and oa_lt == other_agents[1] and oa_rt == other_agents[2]):
-        #         q_compare_dict[(loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act)] = self.q_dict[(loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act)]
-        #         # print("q_compare_dict (loop): {}".format(q_compare_dict))
 
         try:
             max(q_compare_dict.iteritems(), key=lambda x:x[1])
         except ValueError:
             pass
-            # print("No Qs for the state, yet...")
         else:
             key, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
             return key[-1], q_value
@@ -172,13 +165,13 @@ class LearningAgent(Agent):
         left = inputs['left']
         right = inputs['right']
 
-        # TODO: Update state
+        # Update state
         now_loc = self.env.agent_states[self]['location'] # get SmartCab's location components
         now_heading = self.env.agent_states[self]['heading'] # get SmartCab's heading components
         now_light = inputs['light'] # get traffic light status
         now_agents = [oncoming, left, right] # get other agents' locations
 
-        # TODO: Select action according to your policy
+        # Select action according to your policy
         if self.epsilon > 0.2: # decreasing the possibility of going random
             self.epsilon = self.epsilon - 0.05
 
@@ -285,12 +278,14 @@ def run():
     e.set_primary_agent(a, enforce_deadline=True)  # set agent to track
 
     # Now simulate it
-    sim = Simulator(e, update_delay=2.0)  # reduce update_delay to speed up simulation
+    sim = Simulator(e, update_delay=1.0)  # reduce update_delay to speed up simulation
     sim.run(n_trials=a.num_trial)  # press Esc or close pygame window to quit
-    print("{} trials run. Sucess Count: {}".format(a.num_trial, a.success_count))
-    print("Sucess Rate: {}".format(a.success_count / a.num_trial))
-    print("Total Net Reward: {}".format(a.total_net_reward))
-    print("Average Net Reward: {}".format(a.total_net_reward / a.num_trial))
+    run_log = open('perf.txt', 'w+')
+    run_log.write("{} trials run. Sucess Count: {}".format(a.num_trial, a.success_count))
+    run_log.write("Sucess Rate: {}".format(a.success_count / a.num_trial))
+    run_log.write("Total Net Reward: {}".format(a.total_net_reward))
+    run_log.write("Average Net Reward: {}".format(a.total_net_reward / a.num_trial))
+    run_log.close()
 
 
 if __name__ == '__main__':
