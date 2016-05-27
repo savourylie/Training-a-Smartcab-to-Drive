@@ -21,128 +21,77 @@ class LearningAgent(Agent):
 
     random_reward = [0]
 
+    decision = 0
+
     def __init__(self, env):
         super(LearningAgent, self).__init__(env)  # sets self.env = env, state = None, next_waypoint = None, and a default color
         self.color = 'red'  # override color
         self.planner = RoutePlanner(self.env, self)  # simple route planner to get next_waypoint
         self.epsilon = 1
         self.gamma = 0.9
-        self.i_alpha = 2
-        self.q_dict = defaultdict(lambda: np.random.choice(self.random_reward)) # element of q_dict is (loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act): q_value
+        self.i_alpha = 1
+        self.q_dict = defaultdict(lambda: (0, 0)) # element of q_dict is (next_waypoint, tl, oa_oc, oa_lt, oa_rt, act): [q_value, t]
         self.net_reward = 0
         self.total_net_reward = 0
 
-    def max_q(self, location, heading, traffic_light, other_agents):
+    def max_q(self, next_waypoint, traffic_light, other_agents):
         # start = time.time()
         max_q = ''
         q_compare_dict = {}
 
         # Populate the q_dict
         for act in set(Environment.valid_actions):
-            _ = self.q_dict[(location[0], location[1], heading[0], heading[1], traffic_light, other_agents[0], other_agents[1], other_agents[2], act)]
-            q_compare_dict[(location[0], location[1], heading[0], heading[1], traffic_light, other_agents[0], other_agents[1], other_agents[2], act)] = self.q_dict[(location[0], location[1], heading[0], heading[1], traffic_light, other_agents[0], other_agents[1], other_agents[2], act)]
+            _ = self.q_dict[(next_waypoint, traffic_light, other_agents[0], other_agents[1], other_agents[2], act)]
+            q_compare_dict[(next_waypoint, traffic_light, other_agents[0], other_agents[1], other_agents[2], act)] \
+            = self.q_dict[(next_waypoint, traffic_light, other_agents[0], other_agents[1], other_agents[2], act)]
 
         try:
             max(q_compare_dict.iteritems(), key=lambda x:x[1])
         except ValueError:
-            pass
+            print("Wrong Q Value in Q Compare Dict!")
         else:
-            key, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
-            return key[-1], q_value
+            key, qAndT = max(q_compare_dict.iteritems(), key=lambda x:x[1])
+            return key[-1], qAndT[0], qAndT[1]
 
-    def q_update(self, now_loc, now_heading, now_light, now_agents):
-        q_temp = self.q_dict[(self.prev_loc[0], self.prev_loc[1], self.prev_heading[0], self.prev_heading[1], self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)]
-        q_temp = (1 - (1 / self.i_alpha)) * q_temp + (1 / self.i_alpha) * (self.prev_reward + self.gamma * self.max_q(now_loc, now_heading, now_light, now_agents)[1])
-        self.q_dict[(self.prev_loc[0], self.prev_loc[1], self.prev_heading[0], self.prev_heading[1], self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)] = q_temp
-        self.i_alpha = self.i_alpha + 1
-        return (self.q_dict[(self.prev_loc[0], self.prev_loc[1], self.prev_heading[0], self.prev_heading[1],
-            self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)])
+    def q_update(self, now_waypoint, now_light, now_agents):
+        q_temp = self.q_dict[(self.prev_waypoint, self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)]
+        q_temp0 = (1 - (1 / (q_temp[1] + 1))) * q_temp[0] + (1 / (q_temp[1] + 1)) * (self.prev_reward + self.gamma * self.max_q(now_waypoint, now_light, now_agents)[1])
+        self.q_dict[(self.prev_waypoint, self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)] = (q_temp0, q_temp[1] + 1)
 
-    def _navigator(self, heading, delta):
-        """Use heading and delta (next loc - current loc) to decide the SmartCab's action. Internal use (by policy) only.
-        """
-        valid_deltas = set([-1, 0, 1])
+        return (self.q_dict[(self.prev_waypoint, self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)])
 
-        if delta[0] == 0 and delta[1] == 0:
-            return None
-        elif delta[0] in valid_deltas and delta[1] in valid_deltas:
+    # def _navigator(self, heading, delta):
+    #     """Use heading and delta (next loc - current loc) to decide the SmartCab's action. Internal use (by policy) only.
+    #     """
+    #     valid_deltas = set([-1, 0, 1])
 
-            heading_3d = [heading[0], heading[1], 0]
-            delta_3d = [delta[0], delta[1], 0]
+    #     if delta[0] == 0 and delta[1] == 0:
+    #         return None
+    #     elif delta[0] in valid_deltas and delta[1] in valid_deltas:
 
-            direction = np.cross(heading_3d, delta_3d)
+    #         heading_3d = [heading[0], heading[1], 0]
+    #         delta_3d = [delta[0], delta[1], 0]
 
-            if direction[2] == 0:
-                return 'forward'
-            elif direction[2] == -1:
-                return 'left'
-            elif direction[2] == 1:
-                return 'right'
-            else:
-                raise ValueError, "Navigation system malfuncitoning, man!"
-        else:
-            raise ValueError, "Navigator warning: wrong delta!"
+    #         direction = np.cross(heading_3d, delta_3d)
 
-    def policy(self, location, heading, traffic_light, other_agents):
-        # start = time.time()
-        # print("Start calculating policy...")
-        # print("Location and Heading: {0}, {1}".format(location, heading))
+    #         if direction[2] == 0:
+    #             return 'forward'
+    #         elif direction[2] == -1:
+    #             return 'left'
+    #         elif direction[2] == 1:
+    #             return 'right'
+    #         else:
+    #             raise ValueError, "Navigation system malfuncitoning, man!"
+    #     else:
+    #         raise ValueError, "Navigator warning: wrong delta!"
 
-        next_headings = [np.matrix(heading), np.dot(self.r90_matrix, heading), np.dot(self.rn90_matrix, heading)]
-        # print("Next Headings: {}".format(next_headings))
-
-
-        next_locs = [x + np.matrix(location) for x in next_headings]
-        next_locs.append(np.matrix(location))
-
-        # print("NEXT LOCS!: {}".format(next_locs))
-        temp_next_loc = []
-        # print("Next Locations (RAW): {}".format(next_locs))
-
-        for m in next_locs:
-            temp_next_loc.append(np.matrix(coord_convert([m[0, 0], m[0, 1]])))
-
-        next_locs = [y for x in temp_next_loc for y in x.tolist()]
-        # print("Next Locations (list): {}".format(next_locs))
-
+    def policy(self, next_waypoint, traffic_light, other_agents):
         valid_actions = set([None, 'forward', 'right', 'left'])
 
         max_q = ''
         q_compare_dict = {}
 
-        # print("Test MaxQ: {}".format(self.max_q([3, 4], (-1, 0), 'red', ['forward', None, None])))
-        for loc in next_locs:
-            # print("Next loc (in loop): {}".format(loc))
-            delta_arr = np.array(loc) - np.array(location)
-            if delta_arr[0] == 0 and delta_arr[1] == 0:
-                # print("Staying where you are, heading: {}".format(heading))
-                nnext_headings = [heading, tuple(np.dot(self.r90_matrix, np.array(heading)).tolist()[0]), tuple(np.dot(self.rn90_matrix, np.array(heading)).tolist()[0])]
-            else:
-                nnext_headings = [tuple(delta_arr.tolist()), tuple(np.dot(self.r90_matrix, delta_arr).tolist()[0]), tuple(np.dot(self.rn90_matrix, delta_arr).tolist()[0])]
-            # print("NNext headings (list): {}".format(nnext_headings))
-            for hd in nnext_headings:
-                for tl in set(['green', 'red']):
-                    for oa_oc in valid_actions:
-                        for oa_lt in valid_actions:
-                            for oa_rt in valid_actions:
-                                q_compare_dict[(loc[0], loc[1], hd[0], hd[1], tl, oa_oc, oa_lt, oa_rt)] = self.max_q(loc, (hd[0], hd[1]), tl, [oa_oc, oa_lt, oa_rt])[1]
-                                # print("Next Location and Utility: ({0}, {1})".format(loc, q_compare_dict[(loc[0], loc[1], hd[0], hd[1], tl, oa_oc, oa_lt, oa_rt)]))
-        # print("Length of Q_compare_dict: {}".format(len(q_compare_dict)))
-        # print("Q_Counter: {}".format(q_counter))
-        key, q_value = max(q_compare_dict.iteritems(), key=lambda x:x[1])
-
-        # print("KEY and MaxQ!: {0}, {1}".format(key, q_value))
-
-        delta = [(key[0] - location[0]), (key[1] - location[1])]
-        delta[0], delta[1] = delta_convert([delta[0], delta[1]])
-
-        # print("delta[0] = {}".format(delta[0]))
-        # print("delta[1] = {}".format(delta[1]))
-
-        # end = time.time()
-        # print("Got policy in {} sec.".format(end - start))
-        # print("Going: {}".format(self._navigator(heading, delta)))
-        return self._navigator(heading, delta)
+        return self.max_q(next_waypoint, traffic_light, other_agents)[0]
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -172,12 +121,14 @@ class LearningAgent(Agent):
         now_agents = [oncoming, left, right] # get other agents' locations
 
         # Select action according to your policy
-        if self.epsilon > 0.2: # decreasing the possibility of going random
-            self.epsilon = self.epsilon - 0.05
+        if self.epsilon > 0.3: # decreasing the possibility of going random
+            self.epsilon = self.epsilon - 0.08
 
-        decision = np.random.choice(2, p = [self.epsilon, 1 - self.epsilon]) # decide to go random or with the policy
-        print("random decision: {}".format(decision))
-        if decision == 0: # if zero, go random
+        # self.decision = np.random.choice(2, p = [self.epsilon, 1 - self.epsilon]) # decide to go random or with the policy
+        self.decision = 0
+
+        print("random decision: {}".format(self.decision))
+        if self.decision == 0: # if zero, go random
             action = random.choice(Environment.valid_actions[1:])
         else: # else go with the policy
             action = self.policy(now_loc, now_heading, now_light, now_agents)
@@ -280,11 +231,22 @@ def run():
     # Now simulate it
     sim = Simulator(e, update_delay=1.0)  # reduce update_delay to speed up simulation
     sim.run(n_trials=a.num_trial)  # press Esc or close pygame window to quit
-    run_log = open('perf.txt', 'w+')
-    run_log.write("{} trials run. Sucess Count: {}".format(a.num_trial, a.success_count))
-    run_log.write("Sucess Rate: {}".format(a.success_count / a.num_trial))
-    run_log.write("Total Net Reward: {}".format(a.total_net_reward))
-    run_log.write("Average Net Reward: {}".format(a.total_net_reward / a.num_trial))
+    run_log = open('perf.txt', 'a')
+    if a.decision == 0:
+        print("Random mode")
+        run_log.write("Random mode\n")
+    else:
+        run_log.write("Smart-to-be mode\n")
+        print("Smart-to-be mode")
+    print("{} trials run. Sucess Count: {}\n".format(a.num_trial, a.success_count))
+    print("Success Rate: {}".format(a.success_count / a.num_trial))
+    print("Total Net Reward: {}".format(a.total_net_reward))
+    print("Average Net Reward: {}".format(a.total_net_reward / a.num_trial))
+
+    run_log.write("{} trials run. Sucess Count: {}\n".format(a.num_trial, a.success_count))
+    run_log.write("Success Rate: {}\n".format(a.success_count / a.num_trial))
+    run_log.write("Total Net Reward: {}\n".format(a.total_net_reward))
+    run_log.write("Average Net Reward: {}\n\n\n".format(a.total_net_reward / a.num_trial))
     run_log.close()
 
 
