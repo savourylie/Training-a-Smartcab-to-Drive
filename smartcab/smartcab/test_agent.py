@@ -130,83 +130,32 @@ class TestAgent:
 
 		assert type(self.agent.policy('right', 'green', ['forward', 'right', 'left'])) == type('string') or type(None)
 
-# 	def test_policy_output_value(self):
-# 		# Now state 1
-# 		now_loc = [3, 4]
-# 		now_heading = (-1, 0)
-# 		now_light = 'red'
-# 		now_agents = ['forward', 'forward', None]
+	def test_policy_output_value(self):
+		# Now state 1
+		now_waypoint = 'forward'
+		now_light = 'red'
+		now_agents = ['forward', 'forward', None]
 
-# 		# Next state 1-0
-# 		next_loc10 = [3, 4]
-# 		next_heading10 = (-1, 0)
-# 		next_light10 = 'red'
-# 		next_agents10 = ['forward', None, None]
-# 		next_action10 = 'right'
+		# Possibilities 1
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], 'forward')] = (3, 1)
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], 'right')] = (2, 0)
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], 'left')] = (1, 2)
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], None)] = (5, 1)
 
-# 		# Next state 1-1-1
-# 		next_loc11 = [3, 3]
-# 		next_heading11 = (0, -1)
-# 		next_light11 = 'red'
-# 		next_agents11 = ['forward', 'forward', None]
-# 		next_action11 = None
+		assert self.agent.policy(now_waypoint, now_light, now_agents) == None
 
-# 		# Next state 1-1-2
-# 		next_loc12 = [3, 3]
-# 		next_heading12 = (0, -1)
-# 		next_light12 = 'green'
-# 		next_agents12 = ['forward', None, None]
-# 		next_action12 = 'forward'
+		# Now state 2
+		now_waypoint = 'forward'
+		now_light = 'green'
+		now_agents = ['left', 'forward', 'left']
 
-# 		# Next state 1-2-1
-# 		next_loc21 = [2, 4]
-# 		next_heading21 = (-1, 0)
-# 		next_light21 = 'green'
-# 		next_agents21 = ['left', 'forward', None]
-# 		next_action21 = 'left'
+		# Possibilities 2
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], 'forward')] = (-1, 1)
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], 'right')] = (-2, 0)
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], 'left')] = (-1, 2)
+		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], None)] = (-5, 1)
 
-# 		# Next state 1-2-2
-# 		next_loc22 = [2, 4]
-# 		next_heading22 = (-1, 0)
-# 		next_light22 = 'red'
-# 		next_agents22 = ['left', 'forward', 'left']
-# 		next_action22 = 'right'
-
-# 		# Next state 1-2-3
-# 		next_loc23 = [2, 4]
-# 		next_heading23 = (-1, 0)
-# 		next_light23 = 'green'
-# 		next_agents23 = ['forward', 'forward', 'forward']
-# 		next_action23 = 'right'
-
-# 		# Next state 1-3
-# 		next_loc3 = [3, 5]
-# 		next_heading3 = (0, 1)
-# 		next_light3 = 'red'
-# 		next_agents3 = ['forward', None, None]
-# 		next_action3 = 'right'
-
-# 		# Possibilities 1
-# 		self.agent.q_dict[(next_loc11[0], next_loc11[1], next_heading11[0], next_heading11[1], next_light11, next_agents11[0], next_agents11[1], next_agents11[2], next_action11)] = 3
-# 		self.agent.q_dict[(next_loc12[0], next_loc11[1], next_heading12[0], next_heading12[1], next_light12, next_agents12[0], next_agents12[1], next_agents12[2], next_action12)] = 1
-# 		self.agent.q_dict[(next_loc21[0], next_loc21[1], next_heading21[0], next_heading21[1], next_light21, next_agents21[0], next_agents21[1], next_agents21[2], next_action21)] = 0
-# 		self.agent.q_dict[(next_loc22[0], next_loc22[1], next_heading22[0], next_heading22[1], next_light22, next_agents22[0], next_agents22[1], next_agents22[2], next_action22)] = -1.5
-# 		self.agent.q_dict[(next_loc23[0], next_loc23[1], next_heading23[0], next_heading23[1], next_light23, next_agents23[0], next_agents23[1], next_agents23[2], next_action23)] = -1.5
-# 		self.agent.q_dict[(next_loc3[0], next_loc3[1], next_heading3[0], next_heading3[1], next_light3, next_agents3[0], next_agents3[1], next_agents3[2], next_action3)] = -3
-
-# 		assert self.agent.policy(now_loc, now_heading, now_light, now_agents) == 'right'
-
-# 		self.agent.q_dict[(next_loc3[0], next_loc3[1], next_heading3[0], next_heading3[1], next_light3, next_agents3[0], next_agents3[1], next_agents3[2], next_action3)] = 10
-
-# 		assert self.agent.policy(now_loc, now_heading, now_light, now_agents) == 'left'
-
-# 		self.agent.q_dict[(next_loc22[0], next_loc22[1], next_heading22[0], next_heading22[1], next_light22, next_agents22[0], next_agents22[1], next_agents22[2], next_action22)] = 15
-
-# 		assert self.agent.policy(now_loc, now_heading, now_light, now_agents) == 'forward'
-
-# 		self.agent.q_dict[(next_loc10[0], next_loc10[1], next_heading10[0], next_heading10[1], next_light10, next_agents10[0], next_agents10[1], next_agents10[2], next_action10)] = 20
-
-# 		assert self.agent.policy(now_loc, now_heading, now_light, now_agents) == None
+		assert self.agent.policy(now_waypoint, now_light, now_agents) == 'left' or self.agent.policy(now_waypoint, now_light, now_agents) == 'forward'
 
 # def test_coord_convert():
 # 	assert coord_convert([8, 5]) == [8, 5]

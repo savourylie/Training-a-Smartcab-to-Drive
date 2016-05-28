@@ -1,46 +1,60 @@
-Random mode
-100 trials run. Sucess Count: 23
-Success Rate: 0.23
-Total Net Reward: 950.5
-Average Net Reward: 9.505
+Smart-to-be mode (quick and dirty)
+100 trials run. Success Count: 65
+Success Rate: 0.65
+Total Net Reward: 2776.0
+Average Net Reward: 27.76
+
+Smart-to-be mode (r ~ 1000)
+100 trials run. Success Count: 80
+Success Rate: 0.8
+Total Net Reward: 3028.5
+Average Net Reward: 30.285
+
+Smart-to-be mode (r ~ 250)
+100 trials run. Success Count: 32
+Success Rate: 0.32
+Total Net Reward: 3698.0
+Average Net Reward: 36.98
+
+Smart-to-be mode (r ~ 500)
+100 trials run. Success Count: 92
+Success Rate: 0.92
+Total Net Reward: 2995.0
+Average Net Reward: 29.95
+
+Smart-to-be mode (r ~ 500 second run)
+100 trials run. Success Count: 64
+Success Rate: 0.64
+Total Net Reward: 3312.0
+Average Net Reward: 33.12
+Finished 100 trials in 2451 steps!
+
+Smart-to-be mode (r ~ 600)
+100 trials run. Success Count: 78
+Success Rate: 0.78
+Total Net Reward: 3025.0
+Average Net Reward: 30.25
+Finished 100 trials in 1788 steps!Random mode
+5 trials run. Success Count: 2
+Success Rate: 0.4
+Total Net Reward: 102.0
+Average Net Reward: 20.4
+Finished 5 trials in 123 steps!
+
 
 Random mode
-100 trials run. Sucess Count: 23
-Success Rate: 0.23
-Total Net Reward: 1051.5
-Average Net Reward: 10.515
-
-Random mode
-100 trials run. Sucess Count: 26
-Success Rate: 0.26
-Total Net Reward: 1028.5
-Average Net Reward: 10.285
-
-Random mode
-100 trials run. Sucess Count: 24
-Success Rate: 0.24
-Total Net Reward: 990.5
-Average Net Reward: 9.905
+5 trials run. Success Count: 1
+Success Rate: 0.2
+Total Net Reward: 80.0
+Average Net Reward: 16.0
+Finished 5 trials in 134 steps!
 
 
 Random mode
-100 trials run. Sucess Count: 26
-Success Rate: 0.26
-Total Net Reward: 979.0
-Average Net Reward: 9.79
-
-
-Random mode
-100 trials run. Sucess Count: 0
-Success Rate: 0.0
-Total Net Reward: 19.0
-Average Net Reward: 0.19
-
-
-Random mode
-100 trials run. Sucess Count: 0
-Success Rate: 0.0
-Total Net Reward: -4.0
-Average Net Reward: -0.04
+5 trials run. Success Count: 1
+Success Rate: 0.2
+Total Net Reward: 72.0
+Average Net Reward: 14.4
+Finished 5 trials in 144 steps!
 
 

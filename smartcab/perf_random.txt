@@ -1,0 +1,30 @@
+Random mode
+100 trials run. Success Count: 23
+Success Rate: 0.23
+Total Net Reward: 950.5
+Average Net Reward: 9.505
+
+Random mode
+100 trials run. Success Count: 23
+Success Rate: 0.23
+Total Net Reward: 1051.5
+Average Net Reward: 10.515
+
+Random mode
+100 trials run. Success Count: 26
+Success Rate: 0.26
+Total Net Reward: 1028.5
+Average Net Reward: 10.285
+
+Random mode
+100 trials run. Success Count: 24
+Success Rate: 0.24
+Total Net Reward: 990.5
+Average Net Reward: 9.905
+
+
+Random mode
+100 trials run. Success Count: 26
+Success Rate: 0.26
+Total Net Reward: 979.0
+Average Net Reward: 9.79
