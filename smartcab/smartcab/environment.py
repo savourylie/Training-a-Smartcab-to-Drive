@@ -83,6 +83,9 @@ class Environment(object):
         start = random.choice(self.intersections.keys())
         destination = random.choice(self.intersections.keys())
 
+        # Get estimate steps required (close to manhattan distance)
+        self.distance = abs(destination[0] - start[0]) + abs(destination[1] - start[1])
+
         # Ensure starting location and destination are not too close
         while self.compute_dist(start, destination) < 4:
             start = random.choice(self.intersections.keys())
@@ -193,7 +196,8 @@ class Environment(object):
                 self.done = True
                 print "Environment.act(): Primary agent has reached destination!"  # [debug]
                 print("Net reward: {}".format(agent.net_reward))
-                agent.success_count += 1
+                if agent.num_reset > agent.random_rounds:
+                    agent.success_count += 1
             self.status_text = "state: {}\naction: {}\nreward: {}".format(agent.get_state(), action, reward)
             #print "Environment.act() [POST]: location: {}, heading: {}, action: {}, reward: {}".format(location, heading, action, reward)  # [debug]
 

@@ -34,27 +34,294 @@ Smart-to-be mode (r ~ 600)
 Success Rate: 0.78
 Total Net Reward: 3025.0
 Average Net Reward: 30.25
-Finished 100 trials in 1788 steps!Random mode
-5 trials run. Success Count: 2
-Success Rate: 0.4
-Total Net Reward: 102.0
-Average Net Reward: 20.4
-Finished 5 trials in 123 steps!
+Finished 100 trials in 1788 steps!
+
+Smart-to-be mode (r ~ 700)
+100 trials run. Success Count: 87
+Success Rate: 0.87
+Total Net Reward: 2863.5
+Average Net Reward: 28.635
+Finished 100 trials in 1596 steps!
+
+Smart-to-be mode
+100 trials run. Success Count: 76
+Success Rate: 0.76
+Finished 100 trials in 1831 steps!
+Number of Penalized Trial(s): 54
+Average Reward Rate: 2.06078392356
+Max Reward Rate: 5.5
+Min Reward Rate: 0.557692307692
+Range of Reward Rate: 4.94230769231
+Mode of Reward Rate: [(2.2, 9)]
+
+Smart-to-be mode
+100 trials run. Success Count: 87 (r = 500)
+Success Rate: 0.87
+Finished 100 trials in 1458 steps!
+Number of Penalized Trial(s): 20
+Average Reward Rate: 2.31571463157
+Max Reward Rate: 4.5
+Min Reward Rate: 0.25
+Range of Reward Rate: 4.25
+Mode of Reward Rate: [(2.1, 11)]
+
+Smart-to-be mode
+100 trials run. Success Count: 69 (r = 600)
+Success Rate: 0.69
+Finished 100 trials in 1772 steps!
+Number of Penalized Trial(s): 22
+Average Reward Rate: 2.09134204805
+Max Reward Rate: 6.25
+Min Reward Rate: 0.288461538462
+Range of Reward Rate: 5.96153846154
+Mode of Reward Rate: [(2.3, 10)]
+
+Smart-to-be mode
+100 trials run. Success Count: 87 (r = 700)
+Success Rate: 0.87
+Finished 100 trials in 1661 steps!
+Number of Penalized Trial(s): 33
+Average Reward Rate: 2.18500370564
+Max Reward Rate: 4.83333333333
+Min Reward Rate: 0.145161290323
+Range of Reward Rate: 4.68817204301
+Mode of Reward Rate: [(1.8, 8)]
+
+Smart-to-be mode
+100 trials run. Success Count: 55 (r = 800)
+Success Rate: 0.55
+Finished 100 trials in 2315 steps!
+Number of Penalized Trial(s): 32
+Average Reward Rate: 1.77916365319
+Max Reward Rate: 4.83333333333
+Min Reward Rate: 0.347826086957
+Range of Reward Rate: 4.48550724638
+Mode of Reward Rate: [(1.4, 12)]
+
+Smart-to-be mode
+100 trials run. Success Count: 79 (r = 1000)
+Success Rate: 0.79
+Finished 100 trials in 1923 steps!
+Number of Penalized Trial(s): 36
+Average Reward Rate: 1.95112527565
+Max Reward Rate: 5.33333333333
+Min Reward Rate: 0.403225806452
+Range of Reward Rate: 4.93010752688
+Mode of Reward Rate: [(2.1, 17)]
+
+Smart-to-be mode
+100 trials run. Success Count: 76 (r = 1200)
+Success Rate: 0.76
+Finished 100 trials in 1936 steps!
+Number of Penalized Trial(s): 54
+Average Reward Rate: 1.88476937993
+Max Reward Rate: 4.5
+Min Reward Rate: 0.209677419355
+Range of Reward Rate: 4.29032258065
+Mode of Reward Rate: [(2.0, 9)]
+
+Smart-to-be mode
+100 trials run. Success Count: 75 (r = 1500)
+Success Rate: 0.75
+Finished 100 trials in 1846 steps!
+Number of Penalized Trial(s): 52
+Average Reward Rate: 2.00883696029
+Max Reward Rate: 6.25
+Min Reward Rate: 0.365853658537
+Range of Reward Rate: 5.88414634146
+Mode of Reward Rate: [(2.0, 6)]
+
+Smart-to-be mode
+100 trials run. Success Count: 63 (r = 2000)
+Success Rate: 0.63
+Finished 100 trials in 2091 steps!
+Number of Penalized Trial(s): 69
+Average Reward Rate: 1.61583856441
+Max Reward Rate: 7.0
+Min Reward Rate: 0.047619047619
+Range of Reward Rate: 6.95238095238
+Mode of Reward Rate: [(0.8, 8)]
+
+Smart-to-be mode
+100 trials run. Success Count: 66 (r = 2500)
+Success Rate: 0.66
+Finished 100 trials in 2207 steps!
+Number of Penalized Trial(s): 88
+Average Reward Rate: 1.47261430586
+Max Reward Rate: 4.5
+Min Reward Rate: 0.309523809524
+Range of Reward Rate: 4.19047619048
+Mode of Reward Rate: [(1.2, 10)]
+
+100 trials run. Random rounds: 10, Test-driving 90 trials. Success Count: 44
+Success Rate: 0.488888888889
+Finished 100 trials in 2002 steps!
+Number of Penalized Trial(s): 16
+Penalized Trial(s): [0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 26, 30, 33, 49, 79, 82]
+Last Penalized Trial: 82
+Average Reward Rate: 1.83740373089
+Max Reward Rate: 4.25
+Min Reward Rate: 1.01785714286
+Range of Reward Rate: 3.23214285714
+Mode of Reward Rate: [(1.3, 16)]
 
 
-Random mode
-5 trials run. Success Count: 1
-Success Rate: 0.2
-Total Net Reward: 80.0
-Average Net Reward: 16.0
-Finished 5 trials in 134 steps!
+100 trials run. Random rounds: 20, Test-driving 80 trials. Success Count: 71
+Success Rate: 0.8875
+Finished 100 trials in 1410 steps!
+Number of Penalized Trial(s): 23
+Penalized Trial(s): [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 23, 25, 44, 46, 49, 51, 94]
+Last Penalized Trial: 94
+Average Reward Rate: 2.1955331336
+Max Reward Rate: 10.5
+Min Reward Rate: 1.11904761905
+Range of Reward Rate: 9.38095238095
+Mode of Reward Rate: [(1.9, 13)]
 
+100 trials run. Random rounds: 30, Test-driving 70 trials. Success Count: 68
+Success Rate: 0.971428571429
+Finished 100 trials in 962 steps!
+Number of Penalized Trial(s): 27
+Penalized Trial(s): [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 21, 22, 23, 25, 33, 35, 42, 62, 83, 88]
+Last Penalized Trial: 88
+Average Reward Rate: 2.51161737629
+Max Reward Rate: 7.0
+Min Reward Rate: 1.40476190476
+Range of Reward Rate: 5.59523809524
+Mode of Reward Rate: [(1.8, 8)]
 
-Random mode
-5 trials run. Success Count: 1
-Success Rate: 0.2
-Total Net Reward: 72.0
-Average Net Reward: 14.4
-Finished 5 trials in 144 steps!
+100 trials run. Random rounds: 40, Test-driving 60 trials. Success Count: 50
+Success Rate: 0.833333333333
+Finished 100 trials in 916 steps!
+Number of Penalized Trial(s): 40
+Penalized Trial(s): [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 37, 59, 64, 66, 71, 87, 91, 93, 94]
+Last Penalized Trial: 94
+Average Reward Rate: 2.30511324937
+Max Reward Rate: 7.0
+Min Reward Rate: 0.761904761905
+Range of Reward Rate: 6.2380952381
+Mode of Reward Rate: [(1.8, 7)]
 
+100 trials run. Random rounds: 50, Test-driving 50 trials. Success Count: 48
+Success Rate: 0.96
+Finished 100 trials in 690 steps!
+Number of Penalized Trial(s): 3
+Penalized Trial(s): [58, 60, 82]
+Last Penalized Trial: 82
+Average Reward Rate: 2.22837445217
+Max Reward Rate: 3.66666666667
+Min Reward Rate: 1.2619047619
+Range of Reward Rate: 2.40476190476
+Mode of Reward Rate: [(2.1, 6)]
+
+100 trials run. Random rounds: 60, Test-driving 40 trials. Success Count: 39
+Success Rate: 0.975
+Finished 100 trials in 535 steps!
+Number of Penalized Trial(s): 1
+Penalized Trial(s): [65]
+Last Penalized Trial: 65
+Average Reward Rate: 2.41751000206
+Max Reward Rate: 4.5
+Min Reward Rate: 1.44117647059
+Range of Reward Rate: 3.05882352941
+Mode of Reward Rate: [(2.1, 8)]
+
+100 trials run. Random rounds: 70, Test-driving 30 trials. Success Count: 29
+Success Rate: 0.966666666667
+Finished 100 trials in 358 steps!
+Number of Penalized Trial(s): 3
+Penalized Trial(s): [71, 72, 76]
+Last Penalized Trial: 76
+Average Reward Rate: 2.62155763773
+Max Reward Rate: 6.25
+Min Reward Rate: 1.76086956522
+Range of Reward Rate: 4.48913043478
+Mode of Reward Rate: [(1.9, 4)]
+
+100 trials run. Random rounds: 50, Test-driving 50 trials. Success Count: 45
+Success Rate: 0.9
+Avg. steps: 17.04Number of Penalized Trial(s): 1
+Penalized Trial(s): [92]
+Last Penalized Trial: 92
+Average Reward Rate: 2.5476999057
+SD of Reward Rate: 1.34391539362Max Reward Rate: 10.5
+Min Reward Rate: 1.38392857143
+Range of Reward Rate: 9.11607142857
+Mode of Reward Rate: [(1.9, 7)]
+
+100 trials run. Random rounds: 60, Test-driving 40 trials. Success Count: 39
+Success Rate: 0.975
+Avg. steps: 11.225Number of Penalized Trial(s): 0
+Penalized Trial(s): []
+Last Penalized Trial: 58
+Average Reward Rate: 2.5836540774
+SD of Reward Rate: 0.620378641279Max Reward Rate: 4.5
+Min Reward Rate: 1.75
+Range of Reward Rate: 2.75
+Mode of Reward Rate: [(2.5, 5)]
+
+100 trials run. Random rounds: 60, Test-driving 40 trials. Success Count: 38
+Success Rate: 0.95
+Avg. steps: 14.65Number of Penalized Trial(s): 5
+Penalized Trial(s): [67, 69, 81, 95, 97]
+Last Penalized Trial: 97
+Average Reward Rate: 2.35076315744
+SD of Reward Rate: 0.609450658049
+Max Reward Rate: 4.5
+Min Reward Rate: 1.29032258065
+Range of Reward Rate: 3.20967741935
+Mode of Reward Rate: [(2.0, 5)]
+
+100 trials run. Random rounds: 60, Test-driving 40 trials. Success Count: 39
+Success Rate: 0.975
+Avg. steps: 14.7Number of Penalized Trial(s): 1
+Penalized Trial(s): [69]
+Last Penalized Trial: 69
+Average Reward Rate: 2.3878838611
+SD of Reward Rate: 0.494880509436
+Max Reward Rate: 3.41666666667
+Min Reward Rate: 1.44565217391
+Range of Reward Rate: 1.97101449275
+Mode of Reward Rate: [(2.2, 4)]
+
+100 trials run. Random rounds: 60, Test-driving 40 trials. Success Count: 36
+Success Rate: 0.9
+Avg. distance 0.307692307692
+Avg. steps: 14.05Number of Penalized Trial(s): 2
+Penalized Trial(s): [65, 72]
+Last Penalized Trial: 72
+Average Reward Rate: 2.5088883833
+SD of Reward Rate: 0.976701223076
+Max Reward Rate: 7.0
+Min Reward Rate: 1.07317073171
+Range of Reward Rate: 5.92682926829
+Mode of Reward Rate: [(2.4, 5)]
+
+100 trials run. Random rounds: 60, Test-driving 40 trials. Success Count: 35
+Success Rate: 0.875
+Avg. distance 4.64102564103
+Avg. steps: 14.75Number of Penalized Trial(s): 8
+Penalized Trial(s): [67, 70, 73, 77, 81, 82, 87, 88]
+Last Penalized Trial: 88
+Average Reward Rate: 2.48854206815
+SD of Reward Rate: 1.50043157362
+Max Reward Rate: 10.5
+Min Reward Rate: 1.02380952381
+Range of Reward Rate: 9.47619047619
+Mode of Reward Rate: [(2.3, 5)]
+
+100 trials run. Random rounds: 70, Test-driving 30 trials. Success Count: 29
+Success Rate: 0.966666666667
+Avg. distance 4.72413793103
+Avg. steps: 12.6666666667
+D/S: 0.372958257713
+Number of Penalized Trial(s): 4
+Penalized Trial(s): [71, 81, 88, 94]
+Last Penalized Trial: 94
+Average Reward Rate: 2.49547878959
+SD of Reward Rate: 0.568459960715
+Max Reward Rate: 3.8
+Min Reward Rate: 1.72727272727
+Range of Reward Rate: 2.07272727273
+Mode of Reward Rate: [(2.4, 4)]
 

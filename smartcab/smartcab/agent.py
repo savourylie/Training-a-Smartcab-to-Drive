@@ -11,7 +11,6 @@ from simulator import Simulator
 
 import numpy as np
 
-
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
     num_trial = 100
@@ -19,6 +18,7 @@ class LearningAgent(Agent):
     total_net_reward = 0 # For counting total reward
     update_counter = 0 # For counting total steps
     num_reset = -1 # For getting the trial number
+    random_rounds = 70
 
     trial_meta_info = [] # For monitoring what happens in each trial
 
@@ -64,40 +64,20 @@ class LearningAgent(Agent):
 
         return (self.q_dict[(self.prev_waypoint, self.prev_light, self.prev_agents[0], self.prev_agents[1], self.prev_agents[2], self.prev_action)])
 
-    # def _navigator(self, heading, delta):
-    #     """Use heading and delta (next loc - current loc) to decide the SmartCab's action. Internal use (by policy) only.
-    #     """
-    #     valid_deltas = set([-1, 0, 1])
-
-    #     if delta[0] == 0 and delta[1] == 0:
-    #         return None
-    #     elif delta[0] in valid_deltas and delta[1] in valid_deltas:
-
-    #         heading_3d = [heading[0], heading[1], 0]
-    #         delta_3d = [delta[0], delta[1], 0]
-
-    #         direction = np.cross(heading_3d, delta_3d)
-
-    #         if direction[2] == 0:
-    #             return 'forward'
-    #         elif direction[2] == -1:
-    #             return 'left'
-    #         elif direction[2] == 1:
-    #             return 'right'
-    #         else:
-    #             raise ValueError, "Navigation system malfuncitoning, man!"
-    #     else:
-    #         raise ValueError, "Navigator warning: wrong delta!"
-
     def policy(self, next_waypoint, traffic_light, other_agents):
 
         return self.max_q(next_waypoint, traffic_light, other_agents)[0]
 
     def reset(self, destination=None):
         if self.num_step != 0:
-            self.trial_meta_info.append({'penalty': self.penalty, 'step': self.num_step, 'net_reward': self.net_reward, 'reward_rate': self.net_reward / self.num_step})
+            self.trial_meta_info.append({'distance': self.env.distance, 'penalty': self.penalty, 'step': self.num_step, 'net_reward': self.net_reward, 'reward_rate': self.net_reward / self.num_step})
 
         self.planner.route_to(destination)
+
+        if self.epsilon - 1/self.random_rounds > 0: # rr = 25
+            self.epsilon = self.epsilon - 1/self.random_rounds
+        else:
+            self.epsilon = 0
 
         self.net_reward = 0
         self.num_step = 0 # Recalculate the steps for the new trial
@@ -119,11 +99,8 @@ class LearningAgent(Agent):
         now_light = inputs['light'] # get traffic light status
         now_agents = [oncoming, left, right] # get other agents' locations
 
-        # Select action according to your policy
-        if self.epsilon > 0.03: # decreasing the possibility of going random
-            self.epsilon = self.epsilon - 0.0014
-
         self.decision = np.random.choice(2, p = [self.epsilon, 1 - self.epsilon]) # decide to go random or with the policy
+        # self.decision = 0 # Force random mode
 
         print("random decision: {}".format(self.decision))
         if self.decision == 0: # if zero, go random
@@ -133,10 +110,6 @@ class LearningAgent(Agent):
 
         # Execute action and get reward
         reward = self.env.act(self, action)
-
-        # TODO: Learn policy based on state, action, reward
-        # Update q_dict with inverse learning rate self.i_alpha
-        # q_dict is (loc_x, loc_y, hd_x, hd_y, tl, oa_oc, oa_lt, oa_rt, act): q_value
 
         try:
             self.prev_waypoint
@@ -157,67 +130,11 @@ class LearningAgent(Agent):
             self.penalty = True
 
         self.total_net_reward += reward
-        self.update_counter += 1
+
+        if self.num_reset > self.random_rounds: # Only count steps in the testing phase.
+            self.update_counter += 1
+
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
-
-# def coord_convert(num_list):
-#     if num_list[0] != 0 and num_list[0] != 8:
-#         num_list[0] = num_list[0] % 8
-
-#         if num_list[1] != 0 and num_list[1] != 6:
-#             num_list[1] = num_list[1] % 6
-#         elif num_list[1] == 6:
-#             pass
-#         else:
-#             num_list[1] = num_list[1] + 6
-#     elif num_list[0] == 8:
-#         if num_list[1] != 0 and num_list[1] != 6:
-#             num_list[1] = num_list[1] % 6
-#         elif num_list[1] == 6:
-#             pass
-#         else:
-#             num_list[1] = num_list[1] + 6
-
-#     else:
-#         num_list[0] = num_list[0] + 8
-
-#         if num_list[1] != 0 and num_list[1] != 6:
-#             num_list[1] = num_list[1] % 6
-#         elif num_list[1] == 6:
-#             pass
-#         else:
-#             num_list[1] = num_list[1] + 6
-
-#     return num_list
-
-# def delta_convert(num_list):
-#     """Converts displacement vector to the correct form
-#     """
-#     if num_list[0] > 1:
-#         num_list[0] = num_list[0] - 8
-#         if num_list[1] > 1:
-#             num_list[1] = num_list[1] - 6
-#         elif num_list[1] < -1:
-#             num_list[1] = num_list[1] + 6
-#         else:
-#             pass
-#     elif num_list[0] < -1:
-#         num_list[0] = num_list[0] + 8
-#         if num_list[1] > 1:
-#             num_list[1] = num_list[1] - 6
-#         elif num_list[1] < -1:
-#             num_list[1] = num_list[1] + 6
-#         else:
-#             pass
-#     else:
-#         if num_list[1] > 1:
-#             num_list[1] = num_list[1] - 6
-#         elif num_list[1] < -1:
-#             num_list[1] = num_list[1] + 6
-#         else:
-#             pass
-
-#     return num_list
 
 
 def run():
@@ -229,21 +146,24 @@ def run():
     e.set_primary_agent(a, enforce_deadline=True)  # set agent to track
 
     # Now simulate it
-    sim = Simulator(e, update_delay=0.5)  # reduce update_delay to speed up simulation
+    sim = Simulator(e, update_delay=0.1)  # reduce update_delay to speed up simulation
     sim.run(n_trials=a.num_trial)  # press Esc or close pygame window to quit
 
     run_log = open('perf.txt', 'a')
-    if a.decision == 0:
-        print("Random mode")
-        run_log.write("Random mode\n")
-    else:
-        run_log.write("Smart-to-be mode\n")
-        print("Smart-to-be mode")
-    print("{} trials run. Success Count: {}\n".format(a.num_trial, a.success_count))
-    print("Success Rate: {}".format(a.success_count / a.num_trial))
-    print("Total Net Reward: {}".format(a.total_net_reward))
-    print("Average Net Reward: {}".format(a.total_net_reward / a.num_trial))
-    print("Finished {0} trials in {1} steps!".format(a.num_trial, a.update_counter))
+
+    print("{0} trials run. Random rounds: {1}, Test-driving {2} trials. Success Count: {3}".format(a.num_trial, a.random_rounds, a.num_trial - a.random_rounds, a.success_count))
+    print("Success Rate: {}".format(a.success_count / (a.num_trial - a.random_rounds)))
+
+    steps = []
+
+    for x in a.trial_meta_info:
+        steps.append(x['distance'])
+
+    avgd = sum(steps[a.random_rounds:]) / len(steps[a.random_rounds:])
+    avgs = a.update_counter / (a.num_trial - a.random_rounds)
+    print("Avg. distance {}".format(avgd))
+    print("Avg. steps: {}".format(avgs))
+    print("D/S: {}".format(avgd/avgs))
 
     penalty_id = []
 
@@ -256,27 +176,43 @@ def run():
     for x in a.trial_meta_info:
         reward_rates.append(x['reward_rate'])
 
-    reward_rates_rounded = [(round(x * 10) / 10) for x in reward_rates]
+    reward_rates_rounded = [(round(x * 10) / 10) for x in reward_rates[a.random_rounds:]]
 
-    print("Number of Penalized Trial(s): {}".format(len(penalty_id)))
-    print("Penalized Trial(s): {}".format(penalty_id))
-    print("Average Reward Rate: {}".format(sum(reward_rates) / len(reward_rates)))
-    print("Max Reward Rate: {}".format(max(reward_rates)))
-    print("Min Reward Rate: {}".format(min(reward_rates)))
-    print("Range of Reward Rate: {}".format(max(reward_rates) - min(reward_rates)))
+    print("Number of Penalized Trial(s): {}".format(len([x for x in penalty_id if x > a.random_rounds])))
+    print("Penalized Trial(s): {}".format([x for x in penalty_id if x > a.random_rounds]))
+    print("Last Penalized Trial: {}".format(max(penalty_id)))
+
+    # Only counting the statistics of data where the agent follows the policy completely
+    print("Average Reward Rate: {}".format(sum(reward_rates[a.random_rounds:]) / len(reward_rates[a.random_rounds:])))
+    print("SD of Reward Rate: {}".format(np.std(reward_rates[a.random_rounds:])))
+
+    print("Max Reward Rate: {}".format(max(reward_rates[a.random_rounds:])))
+    print("Min Reward Rate: {}".format(min(reward_rates[a.random_rounds:])))
+    print("Range of Reward Rate: {}".format(max(reward_rates[a.random_rounds:]) - min(reward_rates[a.random_rounds:])))
 
     reward_rate_counts = Counter(reward_rates_rounded)
 
     print("Mode of Reward Rate: {}".format(reward_rate_counts.most_common(1)))
 
-    run_log.write("{} trials run. Success Count: {}\n".format(a.num_trial, a.success_count))
-    run_log.write("Success Rate: {}\n".format(a.success_count / a.num_trial))
-    run_log.write("Total Net Reward: {}\n".format(a.total_net_reward))
-    run_log.write("Average Net Reward: {}\n".format(a.total_net_reward / a.num_trial))
-    run_log.write("Finished {0} trials in {1} steps!\n\n\n".format(a.num_trial, a.update_counter))
-    # run_log.write(a.trial_meta_info)
+    run_log.write("{0} trials run. Random rounds: {1}, Test-driving {2} trials. Success Count: {3}\n".format(a.num_trial, a.random_rounds, a.num_trial - a.random_rounds, a.success_count))
+    run_log.write("Success Rate: {}\n".format(a.success_count / (a.num_trial - a.random_rounds)))
+    run_log.write("Avg. distance {}\n".format(sum(steps[a.random_rounds:]) / len(steps[a.random_rounds:])))
+    run_log.write("Avg. steps: {}\n".format(a.update_counter / (a.num_trial - a.random_rounds)))
+    run_log.write("D/S: {}\n".format(avgd/avgs))
+
+    run_log.write("Number of Penalized Trial(s): {}\n".format(len([x for x in penalty_id if x > a.random_rounds])))
+    run_log.write("Penalized Trial(s): {}\n".format(str([x for x in penalty_id if x > a.random_rounds])))
+    run_log.write("Last Penalized Trial: {}\n".format(max(penalty_id)))
+
+    run_log.write("Average Reward Rate: {}\n".format(sum(reward_rates[a.random_rounds:]) / len(reward_rates[a.random_rounds:])))
+    run_log.write("SD of Reward Rate: {}\n".format(np.std(reward_rates[a.random_rounds:])))
+    run_log.write("Max Reward Rate: {}\n".format(max(reward_rates[a.random_rounds:])))
+    run_log.write("Min Reward Rate: {}\n".format(min(reward_rates[a.random_rounds:])))
+    run_log.write("Range of Reward Rate: {}\n".format(max(reward_rates[a.random_rounds:]) - min(reward_rates[a.random_rounds:])))
+    run_log.write("Mode of Reward Rate: {}\n\n".format(str(reward_rate_counts.most_common(1))))
     run_log.close()
 
 
 if __name__ == '__main__':
     run()
+
