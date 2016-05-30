@@ -325,3 +325,36 @@ Min Reward Rate: 1.72727272727
 Range of Reward Rate: 2.07272727273
 Mode of Reward Rate: [(2.4, 4)]
 
+100 trials run. Random rounds: 70, Test-driving 30 trials. Success Count: 27
+Success Rate: 0.9
+Avg. distance 5.37931034483
+Avg. steps: 16.5
+D/S: 0.326018808777
+Number of Penalized Trial(s): 2
+Penalized Trial(s): [72, 79]
+Last Penalized Trial: 79
+Average Reward Rate: 2.42097051521
+SD of Reward Rate: 0.881794010987
+Max Reward Rate: 5.33333333333
+Min Reward Rate: 1.2619047619
+Range of Reward Rate: 4.07142857143
+Mode of Reward Rate: [(2.0, 4)]
+
+
+
+Gamma: 0.9
+499 trials run. Random rounds: 99, Test-driving 401 trials. Success Count: 366
+Failed Trials: [107, 108, 114, 128, 146, 149, 162, 169, 170, 221, 260, 263, 272, 275, 281, 294, 295, 318, 328, 331, 350, 353, 362, 366, 405, 406, 409, 425, 428, 431, 452, 477, 486, 487, 494]
+Success Rate: 0.912718204489
+Avg. distance 4.38847117794
+Avg. steps: 14.635
+D/S: 0.299861371913
+Number of Penalized Trial(s): 25
+Penalized Trial(s): [106, 117, 145, 149, 162, 175, 191, 214, 220, 222, 226, 260, 286, 303, 307, 320, 353, 354, 362, 390, 393, 401, 426, 456, 465]
+Average Reward Rate: 2.7024211711
+SD of Reward Rate: 1.1123647502
+Max Reward Rate: 14
+Min Reward Rate: 1.1935483871
+Range of Reward Rate: 12.8064516129
+Mode of Reward Rate: [(2.1, 36)]
+

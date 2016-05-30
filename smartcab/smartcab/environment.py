@@ -4,6 +4,7 @@ from collections import OrderedDict
 
 from simulator import Simulator
 
+
 class TrafficLight(object):
     """A traffic light that switches periodically."""
 
@@ -29,6 +30,9 @@ class Environment(object):
     valid_actions = [None, 'forward', 'left', 'right']
     valid_inputs = {'light': TrafficLight.valid_states, 'oncoming': valid_actions, 'left': valid_actions, 'right': valid_actions}
     valid_headings = [(1, 0), (0, -1), (-1, 0), (0, 1)]  # ENWS
+
+    num_trial = 0
+    shitshappened = 0
 
     def __init__(self):
         self.done = False
@@ -95,6 +99,9 @@ class Environment(object):
         deadline = self.compute_dist(start, destination) * 5
         print "Environment.reset(): Trial set up with start = {}, destination = {}, deadline = {}".format(start, destination, deadline)
 
+        # Trial Counter
+        self.primary_agent.trial_counter += 1
+
         # Initialize agent(s)
         for agent in self.agent_states.iterkeys():
             self.agent_states[agent] = {
@@ -120,6 +127,15 @@ class Environment(object):
             if self.enforce_deadline and self.agent_states[self.primary_agent]['deadline'] <= 0:
                 self.done = True
                 print "Environment.reset(): Primary agent could not reach destination within deadline!"
+                try:
+                    self.primary_agent.trial_meta_info[self.num_trial]
+                except KeyError:
+                    self.primary_agent.fail = True
+                    self.primary_agent.trial_meta_info[self.num_trial] = {'fail': self.primary_agent.fail, 'distance': self.primary_agent.env.distance, 'penalty': self.primary_agent.penalty, 'step': self.primary_agent.num_step, 'net_reward': self.primary_agent.net_reward, 'reward_rate': self.primary_agent.net_reward / self.primary_agent.num_step}
+                else:
+                    self.shitshappened = 1
+                print("Length of meta_info: {}".format(len(self.primary_agent.trial_meta_info)))
+
             self.agent_states[self.primary_agent]['deadline'] -= 1
 
     def sense(self, agent):
@@ -196,8 +212,10 @@ class Environment(object):
                 self.done = True
                 print "Environment.act(): Primary agent has reached destination!"  # [debug]
                 print("Net reward: {}".format(agent.net_reward))
-                if agent.num_reset > agent.random_rounds:
-                    agent.success_count += 1
+                agent.net_reward += reward
+                agent.trial_meta_info[self.num_trial] = {'fail': agent.fail, 'distance': agent.env.distance, 'penalty': agent.penalty, 'step': agent.num_step, 'net_reward': agent.net_reward, 'reward_rate': agent.net_reward / agent.num_step}
+                print("Length of meta_info: {}".format(len(agent.trial_meta_info)))
+
             self.status_text = "state: {}\naction: {}\nreward: {}".format(agent.get_state(), action, reward)
             #print "Environment.act() [POST]: location: {}, heading: {}, action: {}, reward: {}".format(location, heading, action, reward)  # [debug]
 

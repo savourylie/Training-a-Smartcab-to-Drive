@@ -1,7 +1,7 @@
 
 from agent import LearningAgent
-from agent import coord_convert
-from agent import delta_convert
+# from agent import coord_convert
+# from agent import delta_convert
 from environment import Environment
 import numpy as np
 from numbers import Number

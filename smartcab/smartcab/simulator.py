@@ -50,6 +50,7 @@ class Simulator(object):
         self.quit = False
         for trial in xrange(n_trials):
             print "Simulator.run(): Trial {}".format(trial)  # [debug]
+            self.env.num_trial = trial
             self.env.reset()
             self.current_time = 0.0
             self.last_updated = 0.0
