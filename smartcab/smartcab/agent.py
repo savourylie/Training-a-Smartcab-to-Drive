@@ -23,7 +23,7 @@ class LearningAgent(Agent):
     trial_meta_info = {} # For monitoring what happens in each trial
 
     epsilon = 1
-    gamma = 0.9
+    gamma = 0.8
     random_reward = [0]
 
     random_counter = 0
@@ -96,6 +96,9 @@ class LearningAgent(Agent):
         left = inputs['left']
         right = inputs['right']
 
+        # ETL layer for reducing dimentionality
+        oncoming = left = right = 'None'
+
         # Update state
         now_waypoint = self.next_waypoint
         now_light = inputs['light'] # get traffic light status
@@ -153,6 +156,7 @@ def run():
 
     run_log = open('perf.txt', 'a')
 
+    print("# Dummy Agents: {}".format(e.num_dummies))
     print("Gamma: {}".format(a.gamma))
 
     fail_id = []
@@ -218,6 +222,7 @@ def run():
     print("a.trial_meta_info: {}".format(len(a.trial_meta_info)))
     print(a.trial_meta_info)
 
+    run_log.write("# Dummy Agents: {}".format(e.num_dummies))
     run_log.write("Gamma: {}\n".format(a.gamma))
     run_log.write("{0} trials run. Random rounds: {1}, Test-driving {2} trials. Success Count: {3}\n".format(len(a.trial_meta_info), a.random_counter, a.policy_counter, (a.policy_counter - len([x for x in fail_id if x >= a.random_rounds]))))
     run_log.write("Failed Trials: {}\n".format([x for x in fail_id if x >= a.random_rounds]))
