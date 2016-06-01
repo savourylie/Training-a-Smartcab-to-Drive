@@ -6,6 +6,7 @@ from environment import Environment
 import numpy as np
 from numbers import Number
 
+# Test failing due to the newly added ETL process and change of gamma.
 
 class TestAgent:
 	def setup_method(self, method):
@@ -156,25 +157,3 @@ class TestAgent:
 		self.agent.q_dict[(now_waypoint, now_light, now_agents[0], now_agents[1], now_agents[2], None)] = (-5, 1)
 
 		assert self.agent.policy(now_waypoint, now_light, now_agents) == 'left' or self.agent.policy(now_waypoint, now_light, now_agents) == 'forward'
-
-# def test_coord_convert():
-# 	assert coord_convert([8, 5]) == [8, 5]
-# 	assert coord_convert([2, 6]) == [2, 6]
-# 	assert coord_convert([8, 6]) == [8, 6]
-# 	assert coord_convert([1, 2]) == [1, 2]
-# 	assert coord_convert([9, 5]) == [1, 5]
-# 	assert coord_convert([1, 7]) == [1, 1]
-# 	assert coord_convert([0, 3]) == [8, 3]
-# 	assert coord_convert([0, 0]) == [8, 6]
-# 	assert coord_convert([2, 0]) == [2, 6]
-
-
-# def test_delta_convert():
-# 	assert delta_convert([0, -5]) == [0, 1]
-# 	assert delta_convert([-7, 0]) == [1, 0]
-# 	assert delta_convert([7, 0]) == [-1, 0]
-# 	assert delta_convert([7, 0]) == [-1, 0]
-# 	assert delta_convert([0, 5]) == [0, -1]
-
-
-
