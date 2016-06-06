@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Setting up the Baseline}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Random Walk Mode}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Optimize Against the Baseline}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Identify the States}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Q-Learning and the Smarter Policy}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Q-Learning Optimiazation}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{KPI review}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Parameters to consider}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Failed trials}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{The discount factor \134gamma}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.5}{Penalized trials}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Our Result and Optimal Policy}{}% 12
+\BOOKMARK [1][-]{section.5}{Appendix}{}% 13
+\BOOKMARK [2][-]{subsection.5.1}{Training-Testing data}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.2}{Second test data \(\134gamma = 0.8\)}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.3}{Final test data}{section.5}% 16

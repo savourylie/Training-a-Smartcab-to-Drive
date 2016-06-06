@@ -1,0 +1,1449 @@
+
+% Default to the notebook output style
+
+
+
+
+% Inherit from the specified cell style.
+
+
+
+
+
+\documentclass{article}
+
+
+
+    \usepackage{graphicx} % Used to insert images
+    \usepackage{adjustbox} % Used to constrain images to a maximum size
+    \usepackage{color} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{ulem} % ulem is needed to support strikethroughs (\sout)
+
+
+
+
+    \definecolor{orange}{cmyk}{0,0.4,0.8,0.2}
+    \definecolor{darkorange}{rgb}{.71,0.21,0.01}
+    \definecolor{darkgreen}{rgb}{.12,.54,.11}
+    \definecolor{myteal}{rgb}{.26, .44, .56}
+    \definecolor{gray}{gray}{0.45}
+    \definecolor{lightgray}{gray}{.95}
+    \definecolor{mediumgray}{gray}{.8}
+    \definecolor{inputbackground}{rgb}{.95, .95, .85}
+    \definecolor{outputbackground}{rgb}{.95, .95, .95}
+    \definecolor{traceback}{rgb}{1, .95, .95}
+    % ansi colors
+    \definecolor{red}{rgb}{.6,0,0}
+    \definecolor{green}{rgb}{0,.65,0}
+    \definecolor{brown}{rgb}{0.6,0.6,0}
+    \definecolor{blue}{rgb}{0,.145,.698}
+    \definecolor{purple}{rgb}{.698,.145,.698}
+    \definecolor{cyan}{rgb}{0,.698,.698}
+    \definecolor{lightgray}{gray}{0.5}
+
+    % bright ansi colors
+    \definecolor{darkgray}{gray}{0.25}
+    \definecolor{lightred}{rgb}{1.0,0.39,0.28}
+    \definecolor{lightgreen}{rgb}{0.48,0.99,0.0}
+    \definecolor{lightblue}{rgb}{0.53,0.81,0.92}
+    \definecolor{lightpurple}{rgb}{0.87,0.63,0.87}
+    \definecolor{lightcyan}{rgb}{0.5,1.0,0.83}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Train a Smartcab to Drive Report}
+    \author{Calvin Ku}
+
+
+
+
+    % Pygments definitions
+
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=blue,
+      linkcolor=darkorange,
+      citecolor=darkgreen,
+      }
+    % Slightly bigger margins than the latex defaults
+
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+
+
+    \begin{document}
+
+
+    \maketitle
+
+
+
+In this project we aim at training a \textbf{smartcab} (may be referred
+to as \textbf{smart agent}) to move on a 8 by 6 grid, with randomly
+chosen starting point and destination (minimal distance: 4). The
+\textbf{environment} consists of the \textbf{grid}, three other
+\textbf{randomly moving agents} and \textbf{traffic lights} on every
+intersection, switching with different time intervals.
+
+Our goal is to get our agent to the destination within the set deadline,
+and as fast as possible.
+
+Note that most if not all of our code mentioned in this report will be
+in \texttt{agent.py}. We may make minor changes to other files for
+logging purposes only.
+
+\section{Setting up the Baseline}\label{setting-up-the-baseline}
+
+\subsection{Random Walk Mode}\label{random-walk-mode}
+
+Before we start implementing any machine learning algorithm, it is
+important that we know from what point we are optimizing from. And for
+problems like this, very often we can choose the random walk as our
+baseline.
+
+This can be easily implemented with one line of code (or two lines, if
+you count the import):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import} \NormalTok{random}
+\NormalTok{action }\OperatorTok{=} \NormalTok{random.choice(Environment.valid_actions)}
+\end{Highlighting}
+\end{Shaded}
+
+where
+\texttt{Environment.valid\_actions\ =\ {[}None,\ \textquotesingle{}forward\textquotesingle{},\ \textquotesingle{}left\textquotesingle{},\ \textquotesingle{}right\textquotesingle{}{]}}.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{\PYZus{}\PYZus{}future\PYZus{}\PYZus{}} \PY{k+kn}{import} \PY{n}{division}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k+kn}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{from} \PY{n+nn}{IPython.display} \PY{k+kn}{import} \PY{n}{display}
+
+        \PY{n}{random\PYZus{}mode} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Trials}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mi}{100}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Success Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.24}\PY{p}{,} \PY{l+m+mf}{0.24}\PY{p}{,} \PY{l+m+mf}{0.18}\PY{p}{,} \PY{l+m+mf}{0.16}\PY{p}{,} \PY{l+m+mf}{0.21}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Penalized Trials}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{96}\PY{p}{,} \PY{l+m+mi}{98}\PY{p}{,} \PY{l+m+mi}{97}\PY{p}{,} \PY{l+m+mi}{96}\PY{p}{,} \PY{l+m+mi}{97}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Avg. Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.728}\PY{p}{,} \PY{l+m+mf}{0.672}\PY{p}{,} \PY{l+m+mf}{0.641}\PY{p}{,} \PY{l+m+mf}{0.753}\PY{p}{,} \PY{l+m+mf}{0.675}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Max Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{5.0}\PY{p}{,} \PY{l+m+mf}{3.167}\PY{p}{,} \PY{l+m+mf}{6.25}\PY{p}{,} \PY{l+m+mf}{10.5}\PY{p}{,} \PY{l+m+mf}{4.0}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Min Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.038}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.069}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.071}\PY{p}{,} \PY{l+m+mf}{0.0}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mode Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{19}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{26}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{24}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{l+m+mi}{16}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{\PYZcb{}}\PY{p}{)}
+
+        \PY{n}{display}\PY{p}{(}\PY{n}{random\PYZus{}mode}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+   Avg. Reward Rate  Max Reward Rate  Min Reward Rate Mode Reward Rate  \
+0             0.728            5.000            0.038        (0.0, 19)
+1             0.672            3.167            0.000        (0.0, 15)
+2             0.641            6.250           -0.069        (0.0, 26)
+3             0.753           10.500           -0.071        (0.0, 24)
+4             0.675            4.000            0.000        (0.0, 16)
+
+   Number of Penalized Trials  Number of Trials  Success Rate
+0                          96               100          0.24
+1                          98               100          0.24
+2                          97               100          0.18
+3                          96               100          0.16
+4                          97               100          0.21
+    \end{verbatim}
+
+
+    Above are the data for each test run in random walk mode. The KPIs are
+defined as below:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Success Rate:}
+  \(\frac{\text{Number of times the agent reaches the destination}}{\text{Number of trials}}\)
+\item
+  \textbf{Number of Penalized Trials:} Number of trials which get any
+  negative reward
+\item
+  \textbf{Reward Rate:}
+  \(\frac{\text{Net reward}}{\text{Number of steps taken to get to the destination}}\)
+\item
+  \textbf{Avg. Reward Rate:} Mean Reward Rate of all the successful
+  trials
+\item
+  \textbf{Max Reward Rate:} Maximum Reward Rate
+\item
+  \textbf{Min Reward Rate:} Minimum Reward Rate
+\item
+  \textbf{Mode Reward Rate:} Mode of Reward Rates rounded to the first
+  decimal point
+\end{itemize}
+
+Since our goal is to get to the destination as fast as possible while
+getting as much reward as possible (following traffic rules and not
+getting penalized), the most important factor here is the \textbf{Reward
+Rate} (the higher the better). This, however, doesn't tell us
+everything. Our smartcab may learn to ``be smart'' and try to get to the
+destination fast at all cost, breaking the traffic rules as a tradeoff.
+So in addition to this, we also want to monitor the \textbf{Number of
+Penalized Trials} (the lower the better) to make sure our smartcab
+learns to follow the traffic rules (Note: this is not the case for the
+current world model).
+
+In addition to this, we can also look at the \textbf{Success Rate} which
+monitors the same behavior but is defined to give us a more macroscopic
+view.
+
+With the KPIs set up we can see that the random walk performs rather
+poorly on getting our cab to its destination. And we will improve that
+with a better algorithm.
+
+    \section{Optimize Against the
+Baseline}\label{optimize-against-the-baseline}
+
+\subsection{Identify the States}\label{identify-the-states}
+
+Our environment assumes the US right-of-way rules.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  On a green light, you can turn left only if there is no oncoming
+  traffic at the intersection coming straight.
+\item
+  On a red light, you can turn right if there is no oncoming traffic
+  turning left or traffic from the left going straight.
+\end{enumerate}
+
+Although violating some of the rules are not penalized for the current
+version, we would like to take those features into account and make them
+into our states so that the code is ready for future change (this will
+of course expand our feature space and therefore we will need more
+trials for the agent to learn the optimal policy).
+
+Below are the inputs that our smartcab can take:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Next waypoint
+\item
+  Traffic light status
+\item
+  Status of oncoming agent
+\item
+  Status of agent on the left
+\item
+  Status of on the right
+\item
+  Deadline
+\end{enumerate}
+
+As said earlier, although the smartcab doesn't get penalized for
+violating the right-of-way rules (which means we don't really need to
+let the smartcab sense the statuses of other agents), for now we still
+take them into account and observe how the smart agent would learn.
+
+\paragraph{Next waypoint}\label{next-waypoint}
+
+This is the essential state that we need to take into account, since the
+destination is different for each new trial, representing the absolute
+location and heading is not useful. The only way for our smartcab to
+ever find the destination is to follow the \textbf{next waypoint}. The
+smartcab gets a reward of 2 each time it correctly follows the next
+waypoint, and a reward 0.5 when it doesn't.
+
+\paragraph{Traffic light status}\label{traffic-light-status}
+
+Status of the traffic light plays an important role here as well. The
+reward/penalty works as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  When the traffic light is `red' and the agent goes `forward' it gets
+  penalized by -1
+\item
+  When the traffic light is `red' and the agent goes `left' it gets
+  penalized by -1
+\item
+  In other cases the agent gets reward as stated in the Next waypoint
+  section.
+\end{enumerate}
+
+\paragraph{Statuses of other agents}\label{statuses-of-other-agents}
+
+As said ealier, statuses of other agents don't really play any role
+here. We include them here so that our code is ready for future change.
+The feature space is slighly expanded by including them so we may need
+to take them out if our smart agent fails to learn the optimal policy.
+Yet, we may not need to.
+
+\paragraph{Deadline}\label{deadline}
+
+Deadline is not represented as a status explicitly for now, because
+including it can make the state space too sparse for the Q values to
+converge. However, it does get implicitly represented by \(\gamma\),
+since the less steps it takes for the agent to get to the destination,
+the more rewarding of reaching the destination would be, which in turn
+makes the policy that gets to the destination faster more favorable. We
+may take this into account later if the performance of the smart agent
+is not satisfying.
+
+\paragraph{States used in Q-Table}\label{states-used-in-q-table}
+
+To sum up, we will go with the following states to start with, and make
+adjustments as it rolls if need be.
+
+\begin{itemize}
+\tightlist
+\item
+  Next waypoint
+\item
+  Traffic light status
+\item
+  Status of oncoming agent
+\item
+  Status of agent on the left
+\item
+  Status of on the right
+\end{itemize}
+
+\subsection{Q-Learning and the Smarter
+Policy}\label{q-learning-and-the-smarter-policy}
+
+\paragraph{Quick and dirty Q-learning}\label{quick-and-dirty-q-learning}
+
+To start with, we implement Q-learning with the epsilon-greedy algorithm
+to obtain policies for our smart agent. A quick and dirty implementation
+gives a the following result:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{qd\PYZus{}perf} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Trials}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mi}{100}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Success Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mf}{0.76}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Penalized Trials}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mi}{54}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Avg. Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mf}{2.06}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Max Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mf}{5.5}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Min Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mf}{0.558}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mode Reward Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{p}{(}\PY{l+m+mf}{2.2}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{)}
+
+        \PY{n}{display}\PY{p}{(}\PY{n}{qd\PYZus{}perf}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+   Avg. Reward Rate  Max Reward Rate  Min Reward Rate Mode Reward Rate  \
+0              2.06              5.5            0.558         (2.2, 9)
+
+   Number of Penalized Trials  Number of Trials  Success Rate
+0                          54               100          0.76
+    \end{verbatim}
+
+
+    This is huge improvement! In this quick dirty version of Q-learning we
+start with complete randomness and decrease the probability of going
+random by 1\% (which means we increase the probability of following the
+current best policy learned with Q-learning) each time. The decrease
+stops at when the probablity of going random is at 20\%.
+
+We won't address all of other factors here, such as the learning rate
+\(\alpha\) or the discount factor \(\gamma\). Also since the driving
+policy is very much random so we can't say that we can get constant good
+results like this, but nonetheless this is a good start.
+
+\paragraph{Q-learning formula}\label{q-learning-formula}
+
+The Q value of each state-action pair is given by: \[
+Q(s, a) = R(s) + \gamma \cdot max_{a'}\ Q(s', a')
+\]
+
+where the parameters/variables are defined as below:
+
+\begin{itemize}
+\tightlist
+\item
+  s: states
+\item
+  a: action
+\item
+  s': next states
+\item
+  a': next valid actions
+\item
+  Q: Q value
+\item
+  \(\gamma\): discount factor
+\item
+  R: reward as function of s
+\end{itemize}
+
+However, since we don't know the exact Q value of any state, we'll use
+an estimated version of the formula, given by: \[
+\hat{Q}(s, a)\  \overleftarrow{\alpha}\  R(s) + \gamma \cdot max_{a'}\ \hat{Q}(s', a')
+\]
+
+where \(\hat{Q}\) is our estimated Q (defaulted 0), and \(\alpha\) is
+the learning rate
+(\(V\ \overleftarrow{\alpha}\ x \equiv (1 - \alpha)V + \alpha x\)).
+\(\alpha\) is defined by time step \(t\): (\(\alpha(t) = \frac{1}{t}\)),
+where t is incremented by 1 each time \(\hat{Q}\) gets updated.
+
+So in any state, our policy is just choosing the action \(a\) that
+maximizes the Q values of that state (we call the max Q value the
+utility of that state: \(U(s) = max_{a}\ Q(s, a)\)), that is,
+\(\pi(s) = augmax_{a}\ Q(s, a)\).
+
+\paragraph{Training-testing}\label{training-testing}
+
+Our goal is to learn a feasible policy within 100 trials. And to test
+how well the agent has learned, we let it run another about 400 trials
+following the learned policy and inspect the statistics (we decrease the
+probability of going random by \(\frac{1}{100}\) for each trial until it
+reaches 0. So from Trial 100 our agent would start completely following
+the policy it's learned from the previous 100 trials).
+
+    \paragraph{first\_perf =
+pd.DataFrame(\{}\label{firstux5fperf-pd.dataframe}
+
+\begin{verbatim}
+                'Success Rate': 0.913,
+                'Fail Trials': [(107, 108, 114, 128, 146, 149, 162, 169, 170, 221, 260, 263, 272, 275, 281, 294, 295, 318, 328, 331, 350, 353, 362, 366, 405, 406, 409, 425, 428, 431, 452, 477, 486, 487, 494)],
+                'Avg. Distance': 4.388,
+                'Avg. Steps': 14.635,
+                'D/S': 0.300,
+                'Penalty Rate': 25 / 401,
+                'Penalized Trials': [(106, 117, 145, 149, 162, 175, 191, 214, 220, 222, 226, 260, 286, 303, 307, 320, 353, 354, 362, 390, 393, 401, 426, 456, 465)],
+                'Avg. Reward Rate' : 2.702,
+                'Mode Reward Rate': [(2.1, 36)],
+                'SD Reward Rate': 1.112})
+\end{verbatim}
+
+display(first\_perf)
+
+    One thing to note here is that here we have made some minor changes to
+our KPIs, where we only get our statistics from our testing trials
+(rounds that strictly follow the policy the agent's learned). We have
+also added average steps needed to get a better understanding of how
+efficient our agent is. SD is also present to help us understand the
+consistency.
+
+\section{Q-Learning Optimiazation}\label{q-learning-optimiazation}
+
+\subsection{KPI review}\label{kpi-review}
+
+It appears that we are not so far away from our optimal policy now,
+given the Success Rate at 91.3\% and Penalty Rate at 6.23\%. Let's again
+review what KPIs we have and decide what we should do next.
+
+\paragraph{Primary KPIs}\label{primary-kpis}
+
+The most important KPIs are of course:
+
+\begin{itemize}
+\tightlist
+\item
+  Success Rate
+\item
+  Penalized Trials
+\end{itemize}
+
+If the smartcab doesn't even get to the destianation, then it is not
+really that smart and it doesn't really matter how much reward it
+collects. Also out of our 400 test-drive trials, about 6\% of trials
+still get penalized.
+
+Let's address these issues.
+
+\subsection{Parameters to consider}\label{parameters-to-consider}
+
+Take a look at our Q-learning equation and epsilon-greedy algorithm, we
+can see there are parameters that define the nature of our smart agent.
+They are:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\epsilon\): the probability of our smart agent going random
+\item
+  Learning rate \(\alpha\): parameter that determines how fast our Q
+  values converge
+\item
+  Discount factor \(\gamma\): parameter that determines how much a
+  ``future'' Q value is worth ``now''.
+\end{itemize}
+
+\paragraph{\texorpdfstring{\(\epsilon\): Exploration-exploitation
+dilemma}{\textbackslash{}epsilon: Exploration-exploitation dilemma}}\label{epsilon-exploration-exploitation-dilemma}
+
+Whenever our smart agent takes an action, it's either trying to explore
+the unknown or following what is known to it. The reasonable course of
+action, is therefore that if our agent knows a lot, it should just do
+what it knows is best. On the other hand, if our agent doesn't know
+much, it should just try to see the unseen and learns from it. When our
+smart agent first set out, the entire environment was completely unknown
+to it, so it should spend more time on exploration, rather than just
+following what the really limited ``knowledge'' of its. On the other
+hand as it learns more and more from the environment, it should start
+exploiting what it knows, rather than randomly exploring.
+
+To implement this, we can decrease \(\epsilon\) as we fill the Q table
+of the smartcab, so it would start out having a higher probability of
+going random and gradually shift to following the learned policy.
+
+\paragraph{\texorpdfstring{Learning rate
+\(\alpha\)}{Learning rate \textbackslash{}alpha}}\label{learning-rate-alpha}
+
+As defined earlier, \(\alpha\) as a function of \(t\) decreases as time
+elapses. The change rate of \(\alpha\) signifies how much we believe in
+what we've learned now. If decreases fast, it means we believe we can
+learn the true Q value in just a few steps. On the other hand, if
+decreases slow, it means we believe there are a lot more to it then we
+have already learned. We can think of an agent with steeper learning
+rate as being more conservative (believing more strongly in what it's
+learned in the past), and more open if it has a less steep learning
+rate. The upside of of having a less steep learning rate is that it can
+always take new information into account, while the downside may be that
+it has a less stable policy and may converge more slowly.
+
+\paragraph{\texorpdfstring{Discount factor
+\(\gamma\)}{Discount factor \textbackslash{}gamma}}\label{discount-factor-gamma}
+
+A larger discount factor discourages future value and focuses more on
+immediate rewards. The good thing about a large discount factor is that
+our agent is more eager to get to the final destination faster so that
+the reward at the goal is more attractive to it. The downside with large
+discount factor is that if it discounts future value too much the agent
+may lose its incentive of even reaching the goal.
+
+\subsection{Failed trials}\label{failed-trials}
+
+Below are the trials that have failed.
+
+{[}107, 108, 114, 128, 146, 149, 162, 169, 170, 221, 260, 263, 272, 275,
+281, 294, 295, 318, 328, 331, 350, 353, 362, 366, 405, 406, 409, 425,
+428, 431, 452, 477, 486, 487, 494{]}
+
+As shown earlier, right now the fail rate is at 8.7\%. As to what cause
+the failure, two immediate thoughts may come to mind:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The smartcab got stuck at a local maximal and couldn't get out.
+\item
+  There are some important features we didn't represent in our model, or
+  didn't put enough weight to it.
+\end{enumerate}
+
+The first problem can be solved easily by tweaking the epsilon-greedy
+algorithm to expose the agent to more data or to a more balanced data in
+case there were some special cases that only occur once in a while. The
+second problem requires that we take a closer look at the data to find
+out what we have missed.
+
+Either case, we need to look at what's happened, so let's do that.
+
+Here we pick a few examples and take a closer look at them.
+
+\textbf{Examples}
+
+\begin{verbatim}
+Simulator.run(): Trial 494
+Environment.reset(): Trial set up with start = (1, 1), destination = (8, 2), deadline = 40
+RoutePlanner.route_to(): destination = (8, 2)
+\end{verbatim}
+
+We can see that in this trial, there were:
+
+\begin{itemize}
+\tightlist
+\item
+  Red lights: 24
+\item
+  None actions: 16 (when encountering red lights)
+\item
+  Deadline: 40
+\end{itemize}
+
+More than half of the time (60\%) our agent encountered red lights, and
+out of the 24 red lights our agent chose to wait rather than going
+around the traffic lights (66.67\%).
+
+Let's look at another example.
+
+\begin{verbatim}
+Simulator.run(): Trial 260
+Environment.reset(): Trial set up with start = (2, 5), destination = (8, 2), deadline = 45
+RoutePlanner.route_to(): destination = (8, 2)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Red lights: 23
+\item
+  None Actions: 14 (when encountering red lights)
+\item
+  Violating traffic rules: -1
+\item
+  Deadline: 45
+\end{itemize}
+
+Similarly, more than half of the time (51.11\%) our agent encountered
+red lights, and out of the 24 red lights our agent chose to wait rather
+than going around the traffic lights (60.87\%). We ingore the issue of
+penalty for now and will address it later.
+
+Let's look at one more example.
+
+\begin{verbatim}
+Simulator.run(): Trial 353
+Environment.reset(): Trial set up with start = (5, 2), destination = (1, 6), deadline = 40
+RoutePlanner.route_to(): destination = (1, 6)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Red lights: 21
+\item
+  None actions: 11
+\item
+  Deadline: 40
+\end{itemize}
+
+And again we can see, more than 50\% of time when the agent sees a red
+light, it just sits there and does nothing. This might not be the
+behavior we want to see.
+
+As we can see, it takes 1 to 5 steps to pass a red light and once in a
+while you might see one or two or more 5-step red lights, which we can
+see is exactly what happened in all the three cases.
+
+Following the shortest path whenever it's green light and stops and
+waits for the red light seems a reasonably good policy. But you probably
+wouldn't be too happy if your taxi driver does only this when you're in
+a real hurry. It sure can be done better.
+
+\subsection{\texorpdfstring{The discount factor
+\(\gamma\)}{The discount factor \textbackslash{}gamma}}\label{the-discount-factor-gamma}
+
+When only playing it safe doesn't get you to the destination in time, we
+definitely would want our smartcab to be even smarter, and to respect
+the deadline a bit more.
+
+One simple way to do this is to adjust \(\gamma\). The quantized world
+binds distance and time metric into one single variable, which makes
+this extremely easy to do. Our default \(\gamma = 0.9\). When we
+decrease \(\gamma\) the agent gets penalized more when it gets to the
+destination later than when sooner. This should be able to increase the
+success rate.
+
+Let's test it out!
+
+\paragraph{\texorpdfstring{\(\gamma = 0.8\)}{\textbackslash{}gamma = 0.8}}\label{gamma-0.8}
+
+Setting \(\gamma = 0.8\) and we get the data below:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{second\PYZus{}perf} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Success Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.913}\PY{p}{,} \PY{l+m+mf}{0.990}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fail Trials}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{p}{(}\PY{l+m+mi}{107}\PY{p}{,} \PY{l+m+mi}{108}\PY{p}{,} \PY{l+m+mi}{114}\PY{p}{,} \PY{l+m+mi}{128}\PY{p}{,} \PY{l+m+mi}{146}\PY{p}{,} \PY{l+m+mi}{149}\PY{p}{,} \PY{l+m+mi}{162}\PY{p}{,} \PY{l+m+mi}{169}\PY{p}{,} \PY{l+m+mi}{170}\PY{p}{,} \PY{l+m+mi}{221}\PY{p}{,} \PY{l+m+mi}{260}\PY{p}{,} \PY{l+m+mi}{263}\PY{p}{,} \PY{l+m+mi}{272}\PY{p}{,} \PY{l+m+mi}{275}\PY{p}{,} \PY{l+m+mi}{281}\PY{p}{,} \PY{l+m+mi}{294}\PY{p}{,} \PY{l+m+mi}{295}\PY{p}{,} \PY{l+m+mi}{318}\PY{p}{,} \PY{l+m+mi}{328}\PY{p}{,} \PY{l+m+mi}{331}\PY{p}{,} \PY{l+m+mi}{350}\PY{p}{,} \PY{l+m+mi}{353}\PY{p}{,} \PY{l+m+mi}{362}\PY{p}{,} \PY{l+m+mi}{366}\PY{p}{,} \PY{l+m+mi}{405}\PY{p}{,} \PY{l+m+mi}{406}\PY{p}{,} \PY{l+m+mi}{409}\PY{p}{,} \PY{l+m+mi}{425}\PY{p}{,} \PY{l+m+mi}{428}\PY{p}{,} \PY{l+m+mi}{431}\PY{p}{,} \PY{l+m+mi}{452}\PY{p}{,} \PY{l+m+mi}{477}\PY{p}{,} \PY{l+m+mi}{486}\PY{p}{,} \PY{l+m+mi}{487}\PY{p}{,} \PY{l+m+mi}{494}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{105}\PY{p}{,} \PY{l+m+mi}{149}\PY{p}{,} \PY{l+m+mi}{193}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Avg. Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{4.388}\PY{p}{,} \PY{l+m+mf}{4.695}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Avg. Steps}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{14.635}\PY{p}{,} \PY{l+m+mf}{13.3325}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D/S}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.300}\PY{p}{,} \PY{l+m+mf}{0.352}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Penalty Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{25} \PY{o}{/} \PY{l+m+mi}{401}\PY{p}{,} \PY{l+m+mi}{33} \PY{o}{/} \PY{l+m+mi}{401}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Penalized Trials}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{p}{(}\PY{l+m+mi}{106}\PY{p}{,} \PY{l+m+mi}{117}\PY{p}{,} \PY{l+m+mi}{145}\PY{p}{,} \PY{l+m+mi}{149}\PY{p}{,} \PY{l+m+mi}{162}\PY{p}{,} \PY{l+m+mi}{175}\PY{p}{,} \PY{l+m+mi}{191}\PY{p}{,} \PY{l+m+mi}{214}\PY{p}{,} \PY{l+m+mi}{220}\PY{p}{,} \PY{l+m+mi}{222}\PY{p}{,} \PY{l+m+mi}{226}\PY{p}{,} \PY{l+m+mi}{260}\PY{p}{,} \PY{l+m+mi}{286}\PY{p}{,} \PY{l+m+mi}{303}\PY{p}{,} \PY{l+m+mi}{307}\PY{p}{,} \PY{l+m+mi}{320}\PY{p}{,} \PY{l+m+mi}{353}\PY{p}{,} \PY{l+m+mi}{354}\PY{p}{,} \PY{l+m+mi}{362}\PY{p}{,} \PY{l+m+mi}{390}\PY{p}{,} \PY{l+m+mi}{393}\PY{p}{,} \PY{l+m+mi}{401}\PY{p}{,} \PY{l+m+mi}{426}\PY{p}{,} \PY{l+m+mi}{456}\PY{p}{,} \PY{l+m+mi}{465}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{118}\PY{p}{,} \PY{l+m+mi}{122}\PY{p}{,} \PY{l+m+mi}{143}\PY{p}{,} \PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{174}\PY{p}{,} \PY{l+m+mi}{177}\PY{p}{,} \PY{l+m+mi}{178}\PY{p}{,} \PY{l+m+mi}{186}\PY{p}{,} \PY{l+m+mi}{199}\PY{p}{,} \PY{l+m+mi}{216}\PY{p}{,} \PY{l+m+mi}{241}\PY{p}{,} \PY{l+m+mi}{242}\PY{p}{,} \PY{l+m+mi}{244}\PY{p}{,} \PY{l+m+mi}{287}\PY{p}{,} \PY{l+m+mi}{306}\PY{p}{,} \PY{l+m+mi}{310}\PY{p}{,} \PY{l+m+mi}{342}\PY{p}{,} \PY{l+m+mi}{343}\PY{p}{,} \PY{l+m+mi}{347}\PY{p}{,} \PY{l+m+mi}{364}\PY{p}{,} \PY{l+m+mi}{372}\PY{p}{,} \PY{l+m+mi}{385}\PY{p}{,} \PY{l+m+mi}{389}\PY{p}{,} \PY{l+m+mi}{395}\PY{p}{,} \PY{l+m+mi}{397}\PY{p}{,} \PY{l+m+mi}{406}\PY{p}{,} \PY{l+m+mi}{417}\PY{p}{,} \PY{l+m+mi}{431}\PY{p}{,} \PY{l+m+mi}{457}\PY{p}{,} \PY{l+m+mi}{460}\PY{p}{,} \PY{l+m+mi}{468}\PY{p}{,} \PY{l+m+mi}{469}\PY{p}{,} \PY{l+m+mi}{495}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Avg. Reward Rate}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{p}{[}\PY{l+m+mf}{2.702}\PY{p}{,} \PY{l+m+mf}{2.653}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mode Reward Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{p}{(}\PY{l+m+mf}{2.1}\PY{p}{,} \PY{l+m+mi}{36}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mf}{2.0}\PY{p}{,} \PY{l+m+mi}{133}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SD Reward Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{1.112}\PY{p}{,} \PY{l+m+mf}{1.557}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{)}
+
+        \PY{n}{display}\PY{p}{(}\PY{n}{second\PYZus{}perf}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+   Avg. Distance  Avg. Reward Rate  Avg. Steps    D/S  \
+0          4.388             2.702     14.6350  0.300
+1          4.695             2.653     13.3325  0.352
+
+                                         Fail Trials Mode Reward Rate  \
+0  (107, 108, 114, 128, 146, 149, 162, 169, 170, ...        (2.1, 36)
+1                               (105, 149, 193, 200)       (2.0, 133)
+
+                                    Penalized Trials  Penalty Rate  \
+0  (106, 117, 145, 149, 162, 175, 191, 214, 220, ...      0.062344
+1  (118, 122, 143, 150, 174, 177, 178, 186, 199, ...      0.082294
+
+   SD Reward Rate  Success Rate
+0           1.112         0.913
+1           1.557         0.990
+    \end{verbatim}
+
+
+    This is tremendous improvement! If we take a closer look, the success
+rate has increased to 99.0\% and D/S has also increased 17.33\%! This
+means that not only our smartcab is now more reliable, but it also gets
+to the destination in shorter time (reduced to
+\(\frac{1}{1 + 0.1733} = 0.8522 = 85.22\%\)).
+
+There are still four cases where our smartcab faild to make to the
+destination. We put these cases in the Appendix. We can see that in all
+four cases our smartcab shows that it has the capability of taking
+detours and go around red lights. It wasn't able to make it in these
+four cases could be that the cases were just too extreme.
+
+For now we are happy with the result. Let's move on to address the
+penalty problem.
+
+\subsection{Penalized trials}\label{penalized-trials}
+
+There seems to be quite a few trials in which our agent got penalized,
+both in where \(\gamma = 0.9\) (penalty rate: 6.23\%) and
+\(\gamma = 0.8\) (penalty rate: 8.23\%).
+
+Let's take a closer look at the trials in the case where
+\(\gamma = 0.9\). Below are the trials that got penalized.
+
+{[}106, 117, 145, 149, 162, 175, 191, 214, 220, 222, 226, 260, 286, 303,
+307, 320, 353, 354, 362, 390, 393, 401, 426, 456, 465{]}
+
+From the code we can see, the penalty only occurs when our smartcab
+tries to violate the traffic rules. Our environment is set up in a way
+that not only it penalizes our agent by assigning to it negative
+rewards, but also it doesn't allow the smartcab to even move. This means
+violating the traffic rules does not give the smartcab benefits of any
+sort, long term or short term.
+
+This makes the analysis a lot easier, since it wouldn't be the case that
+our agent was trying to make some tradeoff, trying to get to the
+destination faster, or just simply trying to collect more rewards. The
+only possible explanation for this that the smartcab didn't follow the
+rules is that it didn't see enough data of those particular states.
+
+Let's look at some trials to verify our hypothesis.
+
+\begin{verbatim}
+Simulator.run(): Trial 465
+Environment.reset(): Trial set up with start = (4, 6), destination = (6, 4), deadline = 20
+RoutePlanner.route_to(): destination = (6, 4)
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+
+Simulator.run(): Trial 286
+Environment.reset(): Trial set up with start = (4, 3), destination = (3, 6), deadline = 20
+RoutePlanner.route_to(): destination = (3, 6)
+LearningAgent.update(): deadline = 15, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+
+Simulator.run(): Trial 145
+Environment.reset(): Trial set up with start = (2, 4), destination = (7, 1), deadline = 40
+RoutePlanner.route_to(): destination = (7, 1)
+LearningAgent.update(): deadline = 39, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+\end{verbatim}
+
+Bingo! In all of the three situations, our agent was in exactly the same
+state:
+\texttt{inputs\ =\ \{\textquotesingle{}light\textquotesingle{}:\ \textquotesingle{}red\textquotesingle{},\ \textquotesingle{}oncoming\textquotesingle{}:\ None,\ \textquotesingle{}right\textquotesingle{}:\ \textquotesingle{}right\textquotesingle{},\ \textquotesingle{}left\textquotesingle{}:\ None\}}
+and took the action of \texttt{action\ =\ left}. Apparently the smartcab
+didn't really learn about what to do in this situation from the data
+collected from the first 100 runs.
+
+As we run the simulation, we can see that in most situations, our
+smartcab is running on its own, not seeing any other agents coming
+nearby. And this makes it very difficult for our smart agent to learn a
+good policy for situations when there are other cars around.
+
+We may just increase the number of dummy agent to solve this issue. The
+problem is, in the present representation, there are in total 1536
+state-action pairs. We won't do the numbers here, but with a quick
+calculation we can see that it is unlikely to cover all of the
+state-action pairs during the 100 runs. Also for Q-learning to work, we
+need to iterate through each state at least a couple of times.
+
+Fortunately, as stated earlier, we know for the moment the other agents
+don't really have any effect on the current rewarding mechanism. We can
+teach our agent to simply ignore all the coming agents.
+
+This can be done with a simple ETL process, transforming all agent
+states into one state \texttt{\textquotesingle{}None\textquotesingle{}}.
+Good thing about this practice is that it doesn't change our state
+representation. So whenever we want to change it back we just comment
+out the ETL part.
+
+By doing this, we can dramatically reduce our feature space. The
+previous possible 1536 state-actions pairs are now reduced down to 24.
+After the ETL is applied we shouldn't see any penalty occur anymore.
+Let's verify this.
+
+\begin{verbatim}
+# Dummy Agents: 3
+Gamma: 0.8
+499 trials run. Random rounds: 99, Test-driving 401 trials. Success Count: 400
+Failed Trials: [170]
+Success Rate: 0.997506234414
+Avg. distance 4.45864661654
+Avg. steps: 11.9075
+D/S: 0.374440194545
+Number of Penalized Trial(s): 0
+Penalized Trial(s): []
+Average Reward Rate: 2.76888449934
+SD of Reward Rate: 1.45393269196
+Mode of Reward Rate: [(2.0, 163)]
+\end{verbatim}
+
+Exaclty as we predicted.
+
+Not surprisingly, the reduction of dimensionality does not only
+eliminate the penalty completely, it's also drastically imporved our
+success rate. The only time it failed is at Trial 170, where the
+deadline is 20, distance = 4 and 70\% of the traffic lights are red (see
+Appendix). The smartcab literately has to finish the trial in 6 steps.
+Without having the knowledge all the traffic light states at any given
+time, it is nearly impossible.
+
+Our smartcab is smart enough for the current world model. As the
+complexity of the world model increase, we will definitely need to
+account for more states.
+
+\section{Our Result and Optimal
+Policy}\label{our-result-and-optimal-policy}
+
+The optimal policy have three targets, listed with highest priority on
+the top:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  incurs no penalty
+\item
+  has highest success rate
+\item
+  gets to the destination fastest
+\end{enumerate}
+
+Not inccuring any penalty is the bottomline. We don't want our smartcab
+to break any traffic rules. Next comes the success rate. The reliability
+is more important then anything else. Then comes the efficiency.
+
+Taking all three into account, we can see our agent's policy is very
+close to optimal. It doesn't incur any penalty, with success rate close
+to 100\%. Now let's consider the efficiency.
+
+In the final report, the average distance is 4.459. We know that each
+traffic light has a 0.5 probability of being red. So in average, each
+trial has \(1.73 < x < 3.23\) red lights, considering how the route
+planner is designed. We can take an rough estimation and assume the
+middle point 2.48. On the other hand, each red light takes 4 seconds in
+average. This means if the average steps our agent takes is less than
+\(2.48 * 4 + 4.459 = 14.379\), then it's already better than a
+conservative driver that follows the shortest path and wait for it turn
+green when it sees a red light. Our agent's has done that (Avg. steps:
+11.9075).
+
+Since the traffic lights settings are reset each time a new trial is
+run, our agent can never become a know-it-all agent that ``sees'' the
+best path to the destination. However we can still further improve our
+algorithm by setting up a grid search frame work and try out all the
+parameter combinations. Also, feeding the agent more data may help too.
+
+    \section{Appendix}\label{appendix}
+
+\subsection{Training-Testing data}\label{training-testing-data}
+
+\paragraph{Trial 494 (failed)}\label{trial-494-failed}
+
+\begin{verbatim}
+Simulator.run(): Trial 494
+Environment.reset(): Trial set up with start = (1, 1), destination = (8, 2), deadline = 40
+RoutePlanner.route_to(): destination = (8, 2)
+LearningAgent.update(): deadline = 40, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 39, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 38, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 37, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 36, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 35, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 34, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 33, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 32, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 31, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 30, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 29, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 28, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 27, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 26, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 25, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 24, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 23, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': 'forward'}, action = forward, reward = 0.5
+LearningAgent.update(): deadline = 22, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 21, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 20, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 19, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 15, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 13, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 12, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': 'forward', 'right': None, 'left': None}, action = forward, reward = 0.5
+LearningAgent.update(): deadline = 9, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 7, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 5, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 4, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 3, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 2, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 1, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 0, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+\paragraph{Trial 260 (failed)}\label{trial-260-failed}
+
+\begin{verbatim}
+Simulator.run(): Trial 260
+Environment.reset(): Trial set up with start = (2, 5), destination = (8, 2), deadline = 45
+RoutePlanner.route_to(): destination = (8, 2)
+LearningAgent.update(): deadline = 45, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 44, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 43, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 42, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 41, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 40, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 39, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 38, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 37, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 36, inputs = {'light': 'green', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = 0.5
+LearningAgent.update(): deadline = 35, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 34, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 33, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 32, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 31, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 30, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 29, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 28, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 27, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 26, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 25, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 24, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 23, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 22, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 21, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 20, inputs = {'light': 'green', 'oncoming': None, 'right': 'forward', 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 19, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 18, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 17, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 16, inputs = {'light': 'green', 'oncoming': None, 'right': 'forward', 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 13, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 9, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 7, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': 'forward'}, action = forward, reward = -1
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 5, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 4, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': 'forward'}, action = forward, reward = -1
+LearningAgent.update(): deadline = 3, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': 'forward'}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 1, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 0, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+\end{verbatim}
+
+\paragraph{Trial 353 (failed)}\label{trial-353-failed}
+
+\begin{verbatim}
+Simulator.run(): Trial 353
+Environment.reset(): Trial set up with start = (5, 2), destination = (1, 6), deadline = 40
+RoutePlanner.route_to(): destination = (1, 6)
+LearningAgent.update(): deadline = 40, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 39, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 38, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 37, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 36, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 35, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 34, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 33, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 32, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 31, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 30, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 29, inputs = {'light': 'red', 'oncoming': None, 'right': 'left', 'left': None}, action = forward, reward = -1
+LearningAgent.update(): deadline = 28, inputs = {'light': 'green', 'oncoming': None, 'right': 'left', 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 27, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 26, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 25, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 24, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 23, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 22, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 21, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 20, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 19, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 9, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 8, inputs = {'light': 'green', 'oncoming': None, 'right': 'left', 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 7, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': 'right'}, action = None, reward = 1
+LearningAgent.update(): deadline = 6, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 5, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 4, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 3, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 1, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 0, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+\paragraph{Trial 465 (penalized)}\label{trial-465-penalized}
+
+\begin{verbatim}
+Simulator.run(): Trial 465
+Environment.reset(): Trial set up with start = (4, 6), destination = (6, 4), deadline = 20
+RoutePlanner.route_to(): destination = (6, 4)
+LearningAgent.update(): deadline = 20, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 19, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 15, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 14, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': 'forward', 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+LearningAgent.update(): deadline = 10, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 9, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 7, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 6, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 5, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+Environment.act(): Primary agent has reached destination!
+\end{verbatim}
+
+\paragraph{Trial 286 (penalized)}\label{trial-286-penalized}
+
+\begin{verbatim}
+Simulator.run(): Trial 286
+Environment.reset(): Trial set up with start = (4, 3), destination = (3, 6), deadline = 20
+RoutePlanner.route_to(): destination = (3, 6)
+LearningAgent.update(): deadline = 20, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 19, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 16, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 15, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 9, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 7, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 5, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+Environment.act(): Primary agent has reached destination!Simulator.run(): Trial 286
+Environment.reset(): Trial set up with start = (4, 3), destination = (3, 6), deadline = 20
+RoutePlanner.route_to(): destination = (3, 6)
+LearningAgent.update(): deadline = 20, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 19, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 16, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 15, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 9, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 7, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 5, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+Environment.act(): Primary agent has reached destination!
+\end{verbatim}
+
+\paragraph{Trial 145 (penalized)}\label{trial-145-penalized}
+
+\begin{verbatim}
+Simulator.run(): Trial 145
+Environment.reset(): Trial set up with start = (2, 4), destination = (7, 1), deadline = 40
+RoutePlanner.route_to(): destination = (7, 1)
+LearningAgent.update(): deadline = 40, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 39, inputs = {'light': 'red', 'oncoming': None, 'right': 'right', 'left': None}, action = left, reward = -1
+LearningAgent.update(): deadline = 38, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 37, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 36, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 35, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': 'forward'}, action = forward, reward = 0.5
+LearningAgent.update(): deadline = 34, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 33, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 32, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 31, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 30, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 29, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 28, inputs = {'light': 'green', 'oncoming': None, 'right': 'left', 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 27, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+Environment.act(): Primary agent has reached destination!
+\end{verbatim}
+
+    \subsection{\texorpdfstring{Second test data
+(\(\gamma = 0.8\))}{Second test data (\textbackslash{}gamma = 0.8)}}\label{second-test-data-gamma-0.8}
+
+\paragraph{Trial 200}\label{trial-200}
+
+\begin{verbatim}
+Simulator.run(): Trial 200
+Environment.reset(): Trial set up with start = (8, 3), destination = (4, 5), deadline = 30
+RoutePlanner.route_to(): destination = (4, 5)
+LearningAgent.update(): deadline = 30, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 29, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 28, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 27, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 26, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 25, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 24, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 23, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 22, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 21, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 20, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 19, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': 'left', 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 11, inputs = {'light': 'green', 'oncoming': 'left', 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': 'left', 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 9, inputs = {'light': 'red', 'oncoming': 'left', 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 7, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 6, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 5, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 4, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 3, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 1, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 0, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+\paragraph{Trial 193}\label{trial-193}
+
+\begin{verbatim}
+Simulator.run(): Trial 193
+Environment.reset(): Trial set up with start = (8, 1), destination = (7, 4), deadline = 20
+RoutePlanner.route_to(): destination = (7, 4)
+LearningAgent.update(): deadline = 20, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 19, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 12, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': 'left'}, action = None, reward = 1
+LearningAgent.update(): deadline = 11, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': 'left'}, action = forward, reward = 2
+LearningAgent.update(): deadline = 10, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 9, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 7, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 5, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 4, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 3, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 1, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 0, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+\paragraph{Trial 149}\label{trial-149}
+
+\begin{verbatim}
+Simulator.run(): Trial 149
+Environment.reset(): Trial set up with start = (5, 2), destination = (1, 3), deadline = 25
+RoutePlanner.route_to(): destination = (1, 3)
+LearningAgent.update(): deadline = 25, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 24, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 23, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 22, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 21, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 20, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 19, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 18, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 13, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': 'left'}, action = left, reward = 0.5
+LearningAgent.update(): deadline = 12, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 10, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 9, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 7, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 5, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 4, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 3, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 1, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 0, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+\paragraph{Trial 105}\label{trial-105}
+
+\begin{verbatim}
+Simulator.run(): Trial 105
+Environment.reset(): Trial set up with start = (4, 4), destination = (8, 3), deadline = 25
+RoutePlanner.route_to(): destination = (8, 3)
+LearningAgent.update(): deadline = 25, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 24, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 23, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 22, inputs = {'light': 'green', 'oncoming': 'forward', 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 21, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 20, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 19, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 13, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 10, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 9, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 8, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 7, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 6, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+LearningAgent.update(): deadline = 5, inputs = {'light': 'red', 'oncoming': 'forward', 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 4, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 3, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 1, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 0, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+    \subsection{Final test data}\label{final-test-data}
+
+\paragraph{Trial 170 (failed)}\label{trial-170-failed}
+
+\begin{verbatim}
+Simulator.run(): Trial 170
+Environment.reset(): Trial set up with start = (1, 4), destination = (3, 6), deadline = 20
+RoutePlanner.route_to(): destination = (3, 6)
+LearningAgent.update(): deadline = 20, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 19, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 18, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 17, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 16, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 15, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 14, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 13, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 12, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 11, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 10, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 9, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 8, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 7, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 6, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = None, reward = 1
+LearningAgent.update(): deadline = 5, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = forward, reward = 2
+LearningAgent.update(): deadline = 4, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 0.5
+LearningAgent.update(): deadline = 3, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 2, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 1, inputs = {'light': 'red', 'oncoming': None, 'right': None, 'left': None}, action = right, reward = 2
+LearningAgent.update(): deadline = 0, inputs = {'light': 'green', 'oncoming': None, 'right': None, 'left': None}, action = left, reward = 2
+Environment.reset(): Primary agent could not reach destination within deadline!
+\end{verbatim}
+
+
+    % Add a bibliography block to the postdoc
+
+
+
+    \end{document}
