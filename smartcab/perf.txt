@@ -517,3 +517,19 @@ Min Reward Rate: 1
 Range of Reward Rate: 13
 Mode of Reward Rate: [(2.0, 163)]
 
+# Dummy Agents: 3Gamma: 0.8
+499 trials run. Random rounds: 99, Test-driving 401 trials. Success Count: 401
+Failed Trials: []
+Success Rate: 1.0
+Avg. distance 4.80701754386
+Avg. steps: 12.46
+D/S: 0.385795950551
+Number of Penalized Trial(s): 0
+Penalized Trial(s): []
+Average Reward Rate: 2.72089281042
+SD of Reward Rate: 1.39069127704
+Max Reward Rate: 12.5
+Min Reward Rate: 1
+Range of Reward Rate: 11.5
+Mode of Reward Rate: [(2.0, 144)]
+

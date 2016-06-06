@@ -41,6 +41,11 @@ class LearningAgent(Agent):
         self.num_step = 0 # Number of steps for each trial; get reset each time a new trial begins
         self.penalty = False # Noting if any penalty incurred, default False
         self.fail = False # Noting if it has reached the destination
+        self.status = ()
+
+    def get_state(self):
+
+        return self.status
 
     def max_q(self, next_waypoint, traffic_light, other_agents):
         # start = time.time()
@@ -96,12 +101,15 @@ class LearningAgent(Agent):
         left = inputs['left']
         right = inputs['right']
 
-        # ETL layer for reducing dimentionality
-        oncoming = left = right = 'None'
-
         # Update state
         now_waypoint = self.next_waypoint
         now_light = inputs['light'] # get traffic light status
+
+        self.status = (('next_waypoint', now_waypoint), ('traffic_light', now_light), ('oncoming', oncoming), ('left', left), ('right', right))
+
+        # ETL layer for reducing dimentionality
+        oncoming = left = right = 'None'
+
         now_agents = [oncoming, left, right] # get other agents' locations
 
         self.decision = np.random.choice(2, p = [self.epsilon, 1 - self.epsilon]) # decide to go random or with the policy
@@ -151,7 +159,7 @@ def run():
     e.set_primary_agent(a, enforce_deadline=True)  # set agent to track
 
     # Now simulate it
-    sim = Simulator(e, update_delay=0.1)  # reduce update_delay to speed up simulation
+    sim = Simulator(e, update_delay=0.3)  # reduce update_delay to speed up simulation
     sim.run(n_trials=a.num_trial)  # press Esc or close pygame window to quit
 
     run_log = open('perf.txt', 'a')
@@ -243,32 +251,6 @@ def run():
     run_log.write("Min Reward Rate: {}\n".format(min(reward_rates[a.random_rounds:])))
     run_log.write("Range of Reward Rate: {}\n".format(max(reward_rates[a.random_rounds:]) - min(reward_rates[a.random_rounds:])))
     run_log.write("Mode of Reward Rate: {}\n\n".format(reward_rate_counts.most_common(1)))
-
-    # run_log.write("Gamma: {}\n".format(a.gamma))
-    # run_log.write("{0} trials run. Random rounds: {1}, Test-driving {2} trials. Success Count: {3}\n".format(a.num_trial, a.random_rounds, a.num_trial - a.random_rounds, a.success_count))
-    # run_log.write("Failed Trials: {}\n".format([x for x in fail_id if x >= a.random_rounds]))
-    # run_log.write("Success Rate: {}\n".format(a.success_count / (a.num_trial - a.random_rounds)))
-    # run_log.write("Avg. distance {}\n".format(sum(steps[a.random_rounds:]) / len(steps[a.random_rounds:])))
-    # run_log.write("Avg. steps: {}\n".format(a.update_counter / (a.num_trial - a.random_rounds)))
-    # run_log.write("D/S: {}\n".format(avgd/avgs))
-
-    # run_log.write("Number of Penalized Trial(s): {}\n".format(len([x for x in penalty_id if x >= a.random_rounds])))
-    # run_log.write("Penalized Trial(s): {}\n".format(str([x for x in penalty_id if x >= a.random_rounds])))
-
-    # try:
-    #     max(penalty_id[a.random_rounds:])
-    # except ValueError:
-    #     pass
-    # else:
-    #     run_log.write("Last Penalized Trial: {}\n".format(max(penalty_id[a.random_rounds:])))
-
-    # run_log.write("Average Reward Rate: {}\n".format(sum(reward_rates[a.random_rounds:]) / len(reward_rates[a.random_rounds:])))
-    # run_log.write("SD of Reward Rate: {}\n".format(np.std(reward_rates[a.random_rounds:])))
-    # run_log.write("Max Reward Rate: {}\n".format(max(reward_rates[a.random_rounds:])))
-    # run_log.write("Min Reward Rate: {}\n".format(min(reward_rates[a.random_rounds:])))
-    # run_log.write("Range of Reward Rate: {}\n".format(max(reward_rates[a.random_rounds:]) - min(reward_rates[a.random_rounds:])))
-    # run_log.write("Mode of Reward Rate: {}\n\n".format(str(reward_rate_counts.most_common(1))))
-    # run_log.close()
 
 
 if __name__ == '__main__':
